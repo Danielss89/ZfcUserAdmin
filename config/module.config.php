@@ -13,16 +13,6 @@ return array(
             'zfcuseradmin' => 'ZfcUserAdmin\Controller\UserAdminController',
         ),
     ),
-    'controller_plugins' => array(
-        'invokables' => array(
-            'zfcuserauthentication' => 'ZfcUser\Controller\Plugin\ZfcUserAuthentication',
-        ),
-    ),
-    'service_manager' => array(
-        'aliases' => array(
-            'zfcuser_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
-        ),
-    ),
     'router' => array(
         'routes' => array(
             'zfcuseradmin' => array(
@@ -45,68 +35,6 @@ return array(
                                 'controller' => 'zfcuseradmin',
                                 'action'     => 'list',
                                 'p'          => 0
-                            ),
-                        ),
-                    ),
-                    'authenticate' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/authenticate',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'authenticate',
-                            ),
-                        ),
-                    ),
-                    'logout' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/logout',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'logout',
-                            ),
-                        ),
-                    ),
-                    'register' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/register',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'register',
-                            ),
-                        ),
-                    ),
-                    'changepassword' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/change-password',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'changepassword',
-                            ),
-                        ),
-                        'may_terminate' => true,
-                        'child_routes' => array(
-                            'query' => array(
-                                'type' => 'Query',
-                            ),
-                        ),
-                    ),
-                    'changeemail' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/change-email',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action' => 'changeemail',
-                            ),
-                        ),
-                        'may_terminate' => true,
-                        'child_routes' => array(
-                            'query' => array(
-                                'type' => 'Query',
                             ),
                         ),
                     ),
