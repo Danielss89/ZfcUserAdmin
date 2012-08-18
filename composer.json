@@ -15,5 +15,13 @@
     "require": {
         "php": ">=5.3.3",
         "zf-commons/zfc-user": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZfcUserAdmin": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
     }
 }
