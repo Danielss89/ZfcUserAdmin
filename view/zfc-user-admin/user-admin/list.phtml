@@ -1,0 +1,15 @@
+<table>
+    <?php
+    foreach ($this->users as $user)
+    {
+        print "<tr>";
+        foreach($this->userlistElements as $element)
+        {
+            $func = 'get' . ucfirst($element);
+            print "<td class='row_" . $element . "'>" . $user->$func() . "</td>";
+        }
+        print "<td>Edit</td><td>Delete</td><td>Ban</td></tr>";
+    }
+    ?>
+</table>
+<?php echo $this->paginationControl($this->users, 'Sliding', 'zfc-user-admin/user-admin/pagination_userlist.phtml'); ?>

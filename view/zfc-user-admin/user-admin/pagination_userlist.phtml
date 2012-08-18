@@ -1,0 +1,34 @@
+<?php if ($this->pageCount): ?>
+<div class="pagination">
+    <ul>
+
+        <!-- First page link -->
+        <li<?php echo (isset($this->previous)) ? '' : ' class="disabled"'; ?>>
+            <a href="<?php echo $this->url('zfcuseradmin/userlist', array('p' => $this->first)); ?>">&lt;&lt; First</a>
+        </li>
+
+        <!-- Previous page link -->
+        <li<?php echo (isset($this->previous)) ? '' : ' class="disabled"'; ?>>
+            <a href="<?php echo $this->url('zfcuseradmin/userlist', array('p' => $this->previous-9)); ?>">&lt; Previous 10</a>
+        </li>
+
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+        <li<?php echo ($page == $this->current) ? ' class="active"' : ''; ?>>
+            <a href="<?php echo $this->url('zfcuseradmin/userlist', array('p' => $page)); ?>"><?php echo $page; ?></a>
+        </li>
+        <?php endforeach; ?>
+
+        <!-- Next page link -->
+        <li<?php echo (isset($this->next)) ?: ' class="disabled"'; ?>>
+            <a href="<?php echo $this->url('zfcuseradmin/userlist', array('p' => $this->next+9)); ?>">Next 10 &gt;</a>
+        </li>
+
+        <!-- Last page link -->
+        <li<?php echo (isset($this->next)) ?: ' class="disabled"'; ?>>
+            <a href="<?php echo $this->url('zfcuseradmin/userlist', array('p' => $this->last)); ?>">Last &gt;&gt;</a>
+        </li>
+
+    </ul>
+</div>
+<?php endif; ?>
