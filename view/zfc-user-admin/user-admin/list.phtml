@@ -1,4 +1,10 @@
-<table>
+<?php
+/*$fm = $this->flashMessenger()->setNamespace('zfcuseradmin')->getMessages();
+if (isset($fm[0]))
+{
+    print '<span class=>' . $fm[0] . '</span>';
+}*/
+?><table>
     <?php
     foreach ($this->users as $user)
     {
@@ -8,7 +14,9 @@
             $func = 'get' . ucfirst($element);
             print "<td class='row_" . $element . "'>" . $user->$func() . "</td>";
         }
-        print "<td>Edit</td><td>Delete</td><td>Ban</td></tr>";
+        $editLink = $this->url('zfcuseradmin/edit', array('userId' => $user->getId()));
+        $deleteLink = $this->url('zfcuseradmin/remove', array('userId' => $user->getId()));
+        print "<td><a href='" . $editLink . "'>Edit</a></td><td><a href='" . $deleteLink . "'>Delete</a></td></tr>";
     }
     ?>
 </table>

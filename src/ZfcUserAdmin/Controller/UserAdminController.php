@@ -1,21 +1,14 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
 namespace ZfcUserAdmin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use ZfcUserAdmin\Options\UserListOptionsInterface;
+use ZfcUserAdmin\Options\ModuleOptions;
 
 class UserAdminController extends AbstractActionController
 {
-    protected $options, $userMapper;
+    protected $options, $userMapper, $adminUserService;
 
     public function listAction()
     {
@@ -30,12 +23,63 @@ class UserAdminController extends AbstractActionController
         );
     }
 
-    public function editAction()
+    public function createAction()
     {
+        $form = $this->getServiceLocator()->get('zfcuseradmin_createuser_form');
+        $request = $this->getRequest();
 
+        $user = false;
+        if($request->isPost())
+        {
+            $user = $this->getAdminUserService()->create((array) $request->getPost());
+        }
+
+        if (!$user) {
+            return array(
+                'createUserForm' => $form
+            );
+        }
+
+        $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was created');
+        return $this->redirect()->toRoute('zfcuseradmin/list');
     }
 
-    public function setOptions(UserListOptionsInterface $options)
+    public function editAction()
+    {
+        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
+        $user = $this->getUserMapper()->findById($userId);
+        $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
+        $form->setUser($user);
+        $request = $this->getRequest();
+
+        if (!$request->isPost()) {
+            $form->populateFromUser($user);
+            return array(
+                'editUserForm' => $form,
+                'userId' => $userId
+            );
+        }
+
+        $this->getAdminUserService()->edit(get_object_vars($request->getPost()), $user);
+
+        $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was edited');
+        return $this->redirect()->toRoute('zfcuseradmin/list');
+    }
+
+    public function removeAction()
+    {
+        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
+        $user = $this->getUserMapper()->findById($userId);
+        if($user)
+        {
+            $this->getUserMapper()->remove($user);
+            $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was deleted');
+        }
+
+        return $this->redirect()->toRoute('zfcuseradmin/list');
+    }
+
+    public function setOptions(ModuleOptions $options)
     {
         $this->options = $options;
         return $this;
@@ -43,17 +87,12 @@ class UserAdminController extends AbstractActionController
 
     public function getOptions()
     {
-        if (!$this->options instanceof UserListOptionsInterface) {
+        if (!$this->options instanceof ModuleOptions) {
             $this->setOptions($this->getServiceLocator()->get('zfcuseradmin_module_options'));
         }
         return $this->options;
     }
 
-    /**
-     * getUserMapper
-     *
-     * @return UserMapperInterface
-     */
     public function getUserMapper()
     {
         if (null === $this->userMapper) {
@@ -62,15 +101,23 @@ class UserAdminController extends AbstractActionController
         return $this->userMapper;
     }
 
-    /**
-     * setUserMapper
-     *
-     * @param UserMapperInterface $userMapper
-     * @return User
-     */
     public function setUserMapper(UserMapperInterface $userMapper)
     {
         $this->userMapper = $userMapper;
+        return $this;
+    }
+
+    public function getAdminUserService()
+    {
+        if (null === $this->adminUserService) {
+            $this->adminUserService = $this->getServiceLocator()->get('zfcuseradmin_user_service');
+        }
+        return $this->adminUserService;
+    }
+
+    public function setAdminUserService($service)
+    {
+        $this->adminUserService = $service;
         return $this;
     }
 }

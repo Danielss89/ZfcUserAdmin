@@ -1,8 +1,5 @@
 <?php
 return array(
-    'zfcuseradmin' => array(
-        'userListElements' => array('id', 'email', 'surname'),
-    ),
     'view_manager' => array(
         'template_path_stack' => array(
             'zfcuseradmin' => __DIR__ . '/../view',
@@ -27,7 +24,7 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'userlist' => array(
+                    'list' => array(
                         'type' => 'Segment',
                         'options' => array(
                             'route' => '/list[/:p]',
@@ -35,6 +32,38 @@ return array(
                                 'controller' => 'zfcuseradmin',
                                 'action'     => 'list',
                                 'p'          => 0
+                            ),
+                        ),
+                    ),
+                    'create' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/create',
+                            'defaults' => array(
+                                'controller' => 'zfcuseradmin',
+                                'action'     => 'create'
+                            ),
+                        ),
+                    ),
+                    'edit' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/edit/:userId',
+                            'defaults' => array(
+                                'controller' => 'zfcuseradmin',
+                                'action'     => 'edit',
+                                'userId'     => 0
+                            ),
+                        ),
+                    ),
+                    'remove' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/remove/:userId',
+                            'defaults' => array(
+                                'controller' => 'zfcuseradmin',
+                                'action'     => 'remove',
+                                'userId'     => 0
                             ),
                         ),
                     ),

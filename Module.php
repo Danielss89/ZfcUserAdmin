@@ -33,11 +33,40 @@ class Module
     {
         return array(
             'invokables' => array(
+                'ZfcUserAdmin\Form\EditUser' => 'ZfcUserAdmin\Form\EditUser',
+                'zfcuseradmin_user_service'       => 'ZfcUserAdmin\Service\User',
             ),
             'factories' => array(
                 'zfcuseradmin_module_options' => function ($sm) {
                     $config = $sm->get('Config');
                     return new Options\ModuleOptions(isset($config['zfcuseradmin']) ? $config['zfcuseradmin'] : array());
+                },
+                'zfcuseradmin_edituser_form' => function($sm) {
+                    $options = $sm->get('zfcuseradmin_module_options');
+                    $form = new Form\EditUser(null, $options, $sm);
+                    return $form;
+                },
+                'zfcuseradmin_createuser_form' => function($sm) {
+                    $zfcUserOptions = $sm->get('zfcuser_module_options');
+                    $zfcUserAdminOptions = $sm->get('zfcuseradmin_module_options');
+                    $form = new Form\CreateUser(null, $zfcUserAdminOptions, $zfcUserOptions, $sm);
+                    $filter = new \ZfcUser\Form\RegisterFilter(
+                        new \ZfcUser\Validator\NoRecordExists(array(
+                            'mapper' => $sm->get('zfcuser_user_mapper'),
+                            'key'    => 'email'
+                        )),
+                        new \ZfcUser\Validator\NoRecordExists(array(
+                            'mapper' => $sm->get('zfcuser_user_mapper'),
+                            'key'    => 'username'
+                        )),
+                        $zfcUserOptions
+                    );
+                    if($zfcUserAdminOptions->getCreateUserAutoPassword())
+                    {
+                        $filter->remove('password')->remove('passwordVerify');
+                    }
+                    $form->setInputFilter($filter);
+                    return $form;
                 },
             ),
         );
