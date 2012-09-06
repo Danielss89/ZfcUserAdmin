@@ -2,24 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cdf4dcd-8c08-451f-b678-bd1d627c644f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Form/CreateUser.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Options/UserCreateOptionsInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Options/UserEditOptionsInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/zfc-user-admin/user-admin/create.phtml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/zfc-user-admin/user-admin/edit.phtml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUserFilter.php" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Form/CreateUserFilter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Module.php" afterPath="$PROJECT_DIR$/Module.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/module.config.php" afterPath="$PROJECT_DIR$/config/module.config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ZfcUserAdmin/Controller/UserAdminController.php" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Controller/UserAdminController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUser.php" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUser.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ZfcUserAdmin/Options/ModuleOptions.php" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Options/ModuleOptions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/zfc-user-admin/user-admin/list.phtml" afterPath="$PROJECT_DIR$/view/zfc-user-admin/user-admin/list.phtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/zfc-user-admin/user-admin/pagination_userlist.phtml" afterPath="$PROJECT_DIR$/view/zfc-user-admin/user-admin/pagination_userlist.phtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php" afterPath="$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php" />
     </list>
     <ignored path="ZfcUserAdmin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,10 +26,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Module.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Module.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Module.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="23" selection-start="2537" selection-end="2537" vertical-scroll-proportion="0.0">
+            <state line="64" column="21" selection-start="2609" selection-end="2609" vertical-scroll-proportion="0.5498721">
               <folding />
             </state>
           </provider>
@@ -71,7 +56,7 @@
       <file leaf-file-name="UserAdminController.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Controller/UserAdminController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="5" selection-start="5" selection-end="5" vertical-scroll-proportion="-0.0">
+            <state line="0" column="5" selection-start="5" selection-end="5" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -80,7 +65,7 @@
       <file leaf-file-name="User.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0">
+            <state line="97" column="109" selection-start="3384" selection-end="3384" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -104,10 +89,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreateUser.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CreateUser.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Form/CreateUser.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="72" selection-start="389" selection-end="415" vertical-scroll-proportion="0.47826087">
+            <state line="17" column="72" selection-start="389" selection-end="415" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -116,7 +101,7 @@
       <file leaf-file-name="EditUser.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUser.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="18" selection-start="799" selection-end="799" vertical-scroll-proportion="0.0">
+            <state line="57" column="87" selection-start="1581" selection-end="1581" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -145,7 +130,6 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/view/zfc-user-admin/user-admin/edit.phtml" />
-        <option value="$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUser.php" />
         <option value="$PROJECT_DIR$/view/zfc-user-admin/user-admin/list.phtml" />
         <option value="$PROJECT_DIR$/config/module.config.php" />
         <option value="$PROJECT_DIR$/src/ZfcUserAdmin/Form/CreateUser.phtml" />
@@ -156,10 +140,11 @@
         <option value="$USER_HOME$/Downloads/www.dev.sweetpoints.dk_files/formValidation.css" />
         <option value="$USER_HOME$/Downloads/www.dev.sweetpoints.dk_files/formValidation.js" />
         <option value="$PROJECT_DIR$/src/ZfcUserAdmin/Form/CreateUser.php" />
-        <option value="$PROJECT_DIR$/Module.php" />
-        <option value="$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/src/ZfcUserAdmin/Controller/UserAdminController.php" />
+        <option value="$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php" />
+        <option value="$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUser.php" />
+        <option value="$PROJECT_DIR$/Module.php" />
       </list>
     </option>
   </component>
@@ -235,22 +220,22 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ZfcUserAdmin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ZfcUserAdmin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -288,6 +273,9 @@
           </mappings>
         </serverdata>
       </server>
+      <server id="50837f08-f887-47c9-99be-44ed1edba5d4">
+        <serverdata />
+      </server>
       <server id="741428b3-654d-4adf-bfc0-b8e10d0d59a6">
         <serverdata>
           <mappings>
@@ -302,12 +290,24 @@
           </mappings>
         </serverdata>
       </server>
+      <server id="8f522cf4-f714-41ea-8eed-f7362d0a8e01">
+        <serverdata />
+      </server>
+      <server id="ae151162-254d-4ca8-a506-562280ee2ad2">
+        <serverdata />
+      </server>
+      <server id="ccdc03b6-31a9-40d5-a66a-5c6bbe9b2760">
+        <serverdata />
+      </server>
       <server id="cf57e678-e94e-460c-a105-e08d44a78f10">
         <serverdata>
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
+      </server>
+      <server id="cfd68c4e-1cd9-4667-8807-cb353c5dce14">
+        <serverdata />
       </server>
       <server id="d60e99fe-16a2-4c45-8665-64226427917b">
         <serverdata>
@@ -382,7 +382,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="2560" height="1327" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3291874" sideWeight="0.99920446" order="7" side_tool="false" content_ui="tabs" />
@@ -390,7 +390,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25179" sideWeight="0.6708126" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25974542" sideWeight="0.6708126" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -462,114 +462,82 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Options/UserEditOptionsInterface.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="39" selection-start="0" selection-end="181" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="6" column="39" selection-start="0" selection-end="181" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/zfc-user-admin/user-admin/edit.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="39" selection-start="0" selection-end="1077" vertical-scroll-proportion="-14.193548">
-          <folding />
-        </state>
+        <state line="20" column="39" selection-start="0" selection-end="1077" vertical-scroll-proportion="-14.193548" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Options/ModuleOptions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="45" selection-start="1126" selection-end="1126" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="39" column="45" selection-start="1126" selection-end="1126" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Downloads/www.dev.sweetpoints.dk.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="32" selection-start="3885" selection-end="3885" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1345535307000" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
+        <state line="74" column="32" selection-start="3885" selection-end="3885" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Downloads/www.dev.sweetpoints.dk_files/formValidation.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Form/CreateUserFilter.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/www.dev.sweetpoints.dk_files/formValidation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="22" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/zfc-user-admin/user-admin/create.phtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="46" selection-start="162" selection-end="341" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/module.config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="30" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="34" column="30" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Module.php">
+    <entry file="file://$PROJECT_DIR$/view/zfc-user-admin/user-admin/create.phtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="23" selection-start="2537" selection-end="2537" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Options/UserCreateOptionsInterface.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="45" selection-start="99" selection-end="124" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="18" selection-start="799" selection-end="799" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="1" selection-start="598" selection-end="598" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="12" column="46" selection-start="162" selection-end="341" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Controller/UserAdminController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="5" selection-start="5" selection-end="5" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="5" selection-start="5" selection-end="5" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Service/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="109" selection-start="3384" selection-end="3384" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Options/UserCreateOptionsInterface.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="45" selection-start="99" selection-end="124" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/www.dev.sweetpoints.dk_files/formValidation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="22" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Form/CreateUser.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="72" selection-start="389" selection-end="415" vertical-scroll-proportion="0.47826087">
+        <state line="17" column="72" selection-start="389" selection-end="415" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ZfcUserAdmin/Form/EditUser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="87" selection-start="1581" selection-end="1581" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="1" selection-start="598" selection-end="598" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Module.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="21" selection-start="2609" selection-end="2609" vertical-scroll-proportion="0.5498721">
           <folding />
         </state>
       </provider>

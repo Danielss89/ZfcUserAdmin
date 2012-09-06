@@ -55,7 +55,7 @@ class EditUser extends ProvidesEventsForm
     public function setUser($userEntity)
     {
         $this->userEntity = $userEntity;
-        $this->getEventManager()->trigger('userSet', $this, array('user' => $userEntity, 'serviceManager' => $this->getServiceManager()));
+        $this->getEventManager()->trigger('userSet', $this, array('user' => $userEntity));
     }
 
     public function getUser()

@@ -68,9 +68,9 @@ class User extends EventProvider implements ServiceManagerAwareInterface
             $user->$func($data[$element]);
         }
 
-        $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'form' => $form, 'data' => $data, 'serviceManager' => $this->getServiceManager()));
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'form' => $form, 'data' => $data));
         $this->getUserMapper()->insert($user);
-        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'form' => $form, 'data' => $data, 'serviceManager' => $this->getServiceManager()));
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'form' => $form, 'data' => $data));
         return $user;
     }
 
@@ -93,9 +93,9 @@ class User extends EventProvider implements ServiceManagerAwareInterface
             }
         }
         $this->getUserMapper()->update($user);
-        $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'data' => $data, 'serviceManager' => $this->getServiceManager()));
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'data' => $data));
         $this->getUserMapper()->insert($user);
-        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'data' => $data, 'serviceManager' => $this->getServiceManager()));
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'data' => $data));
         return $user;
     }
 
