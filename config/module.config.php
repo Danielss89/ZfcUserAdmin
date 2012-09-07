@@ -8,10 +8,54 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'zfcuseradmin' => 'ZfcUserAdmin\Controller\UserAdminController',
+            'zfcuseradminauth' => 'ZfcUserAdmin\Controller\UserAdminAuthController',
         ),
     ),
     'router' => array(
         'routes' => array(
+            'zfcuseradminauth' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/auth',
+                    'defaults' => array(
+                        'controller' => 'zfcuseradminauth',
+                        'action'     => 'login',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'login' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/login',
+                            'defaults' => array(
+                                'controller' => 'zfcuseradminauth',
+                                'action' => 'login',
+                            ),
+                        ),
+                    ),
+                    'authenticate' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/authenticate',
+                            'defaults' => array(
+                                'controller' => 'zfcuseradminauth',
+                                'action' => 'authenticate',
+                            ),
+                        ),
+                    ),
+                    'logout' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/logout',
+                            'defaults' => array(
+                                'controller' => 'zfcuseradminauth',
+                                'action' => 'logout',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'zfcuseradmin' => array(
                 'type' => 'Literal',
                 'priority' => 1000,

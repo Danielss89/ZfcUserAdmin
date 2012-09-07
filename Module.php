@@ -10,12 +10,28 @@
 namespace ZfcUserAdmin;
 
 use Zend\Mvc\ModuleRouteListener;
+use Zend\ModuleManager\Feature;
+use Zend\EventManager\EventInterface;
 
-class Module
+class Module implements
+    Feature\BootstrapListenerInterface
 {
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function onBootstrap(EventInterface $e)
+    {
+        $app = $e->getParam('application');
+        $sm  = $app->getServiceManager();
+        $em = $app->getEventManager();
+
+        $service = $sm->get('zfcuseradmin_service_authorize');
+        $em->attach(\Zend\Mvc\MvcEvent::EVENT_ROUTE, array($service, 'onRoute'));
     }
 
     public function getAutoloaderConfig()
@@ -35,6 +51,7 @@ class Module
             'invokables' => array(
                 'ZfcUserAdmin\Form\EditUser' => 'ZfcUserAdmin\Form\EditUser',
                 'zfcuseradmin_user_service'       => 'ZfcUserAdmin\Service\User',
+                'zfcuseradmin_service_authorize' => 'ZfcUserAdmin\Service\Authorize',
             ),
             'factories' => array(
                 'zfcuseradmin_module_options' => function ($sm) {
@@ -75,6 +92,10 @@ class Module
                         $sm->get('zfcuser_doctrine_em'),
                         $sm->get('zfcuser_module_options')
                     );
+                },
+                'zfcuseradmin_auth_options' => function ($sm) {
+                    $config = $sm->get('Config');
+                    return new Options\UserAuthOptions(isset($config['zfcuseradmin']) ? $config['zfcuseradmin'] : array());
                 },
             ),
         );
