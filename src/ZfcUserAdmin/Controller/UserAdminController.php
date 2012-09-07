@@ -14,7 +14,9 @@ class UserAdminController extends AbstractActionController
     {
         $userMapper = $this->getUserMapper();
         $users = $userMapper->findAll();
-        $paginator = \Zend\Paginator\Paginator::factory($users);
+        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($users));
+
+
         $paginator->setItemCountPerPage(100);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         return array(
@@ -96,7 +98,7 @@ class UserAdminController extends AbstractActionController
     public function getUserMapper()
     {
         if (null === $this->userMapper) {
-            $this->userMapper = $this->getServiceLocator()->get('zfcuseradmin_user_mapper');
+            $this->userMapper = $this->getServiceLocator()->get('zfcuser_user_mapper');
         }
         return $this->userMapper;
     }

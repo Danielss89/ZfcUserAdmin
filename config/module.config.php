@@ -86,4 +86,8 @@ return array(
             ),
         ),
     ),
+
+    'zfcuseradmin' => array(
+        'zfcuseradmin_mapper' => 'ZfcUserAdmin\Mapper\UserZendDb',
+    )
 );
