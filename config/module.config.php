@@ -71,4 +71,23 @@ return array(
             ),
         ),
     ),
+
+    'navigation' => array(
+        'admin' => array(
+            'user' => array(
+                'label' => 'User',
+                'route' => 'zfcuseradmin/list',
+                'pages' => array(
+                    'create' => array(
+                        'label' => 'New User',
+                        'route' => 'admin/create',
+                    ),                        
+                ),
+            ),
+        ),
+    ),
+
+    'zfcuseradmin' => array(
+        'zfcuseradmin_mapper' => 'ZfcUserAdmin\Mapper\UserZendDb',
+    )
 );
