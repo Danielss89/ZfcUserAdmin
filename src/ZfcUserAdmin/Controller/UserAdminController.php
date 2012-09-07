@@ -96,7 +96,7 @@ class UserAdminController extends AbstractActionController
     public function getUserMapper()
     {
         if (null === $this->userMapper) {
-            $this->userMapper = $this->getServiceLocator()->get('zfcuser_user_mapper');
+            $this->userMapper = $this->getServiceLocator()->get('zfcuseradmin_user_mapper');
         }
         return $this->userMapper;
     }

@@ -68,6 +68,12 @@ class Module
                     $form->setInputFilter($filter);
                     return $form;
                 },
+                'zfcuseradmin_user_mapper' => function($sm) {
+                    $userMapper = $sm->get('zfcuser_user_mapper');
+                    $mapper = new Mapper\User();
+                    $mapper->setUserMapper($userMapper);
+                    return $mapper;
+                }
             ),
         );
     }
