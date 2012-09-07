@@ -11,4 +11,11 @@ class UserDoctrine extends ZfcUserDoctrineMapper
         $er = $this->em->getRepository($this->options->getUserEntityClass());
         return $er->findAll();
     }
+
+    
+    public function remove($entity)
+    {
+        $this->em->remove($entity);
+        $this->em->flush();
+    }
 }
