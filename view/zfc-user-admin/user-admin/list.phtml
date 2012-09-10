@@ -14,8 +14,8 @@ if (isset($fm[0]))
             $func = 'get' . ucfirst($element);
             print "<td class='row_" . $element . "'>" . $user->$func() . "</td>";
         }
-        $editLink = $this->url('zfcadmin/user/edit', array('userId' => $user->getId()));
-        $deleteLink = $this->url('zfcadmin/user/remove', array('userId' => $user->getId()));
+        $editLink = $this->url('zfcadmin/zfcuser/edit', array('userId' => $user->getId()));
+        $deleteLink = $this->url('zfcadmin/zfcuser/remove', array('userId' => $user->getId()));
         print "<td><a href='" . $editLink . "'>Edit</a></td><td><a href='" . $deleteLink . "'>Delete</a></td></tr>";
     }
     ?>
