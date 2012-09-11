@@ -14,7 +14,7 @@ return array(
         'routes' => array(
             'zfcadmin' => array(
                 'child_routes' => array(
-                    'zfcuser' => array(
+                    'zfcuseradmin' => array(
                         'type' => 'Literal',
                         'priority' => 1000,
                         'options' => array(
@@ -76,7 +76,7 @@ return array(
 
     'navigation' => array(
         'admin' => array(
-            'zfcuser' => array(
+            'zfcuseradmin' => array(
                 'label' => 'User',
                 'route' => 'zfcadmin/zfcuser/list',
                 'pages' => array(
