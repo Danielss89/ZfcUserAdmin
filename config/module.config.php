@@ -32,7 +32,6 @@ return array(
                                     'defaults' => array(
                                         'controller' => 'zfcuseradmin',
                                         'action'     => 'list',
-                                        'p'          => 0
                                     ),
                                 ),
                             ),
@@ -77,7 +76,7 @@ return array(
 
     'navigation' => array(
         'admin' => array(
-            'user' => array(
+            'zfcuser' => array(
                 'label' => 'User',
                 'route' => 'zfcadmin/zfcuser/list',
                 'pages' => array(
