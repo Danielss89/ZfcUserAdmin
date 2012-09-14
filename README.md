@@ -4,7 +4,7 @@ Version 0.0.1 Created by [Daniel Strøm](https://github.com/Danielss89) and [Mar
 
 ## Introduction
 
-This module Restricts access to the `/admin` route and provides an Interface to create/edit new users.
+This module provides an interface to create/edit new users.
 
 ## Installation
 
