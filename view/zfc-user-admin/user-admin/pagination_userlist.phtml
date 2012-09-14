@@ -4,29 +4,29 @@
 
         <!-- First page link -->
         <li<?php echo (isset($this->previous)) ? '' : ' class="disabled"'; ?>>
-            <a href="<?php echo $this->url('zfcadmin/zfcuser/list', array('p' => $this->first)); ?>">&lt;&lt; First</a>
+            <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/list', array('p' => $this->first)); ?>">&lt;&lt; First</a>
         </li>
 
         <!-- Previous page link -->
         <li<?php echo (isset($this->previous)) ? '' : ' class="disabled"'; ?>>
-            <a href="<?php echo $this->url('zfcadmin/zfcuser/list', array('p' => $this->previous-9)); ?>">&lt; Previous 10</a>
+            <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/list', array('p' => $this->previous-9)); ?>">&lt; Previous 10</a>
         </li>
 
         <!-- Numbered page links -->
         <?php foreach ($this->pagesInRange as $page): ?>
         <li<?php echo ($page == $this->current) ? ' class="active"' : ''; ?>>
-            <a href="<?php echo $this->url('zfcadmin/zfcuser/list', array('p' => $page)); ?>"><?php echo $page; ?></a>
+            <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/list', array('p' => $page)); ?>"><?php echo $page; ?></a>
         </li>
         <?php endforeach; ?>
 
         <!-- Next page link -->
         <li<?php echo (isset($this->next)) ?: ' class="disabled"'; ?>>
-            <a href="<?php echo $this->url('zfcadmin/zfcuser/list', array('p' => $this->next+9)); ?>">Next 10 &gt;</a>
+            <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/list', array('p' => $this->next+9)); ?>">Next 10 &gt;</a>
         </li>
 
         <!-- Last page link -->
         <li<?php echo (isset($this->next)) ?: ' class="disabled"'; ?>>
-            <a href="<?php echo $this->url('zfcadmin/zfcuser/list', array('p' => $this->last)); ?>">Last &gt;&gt;</a>
+            <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/list', array('p' => $this->last)); ?>">Last &gt;&gt;</a>
         </li>
 
     </ul>

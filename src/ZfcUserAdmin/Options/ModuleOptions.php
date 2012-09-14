@@ -41,6 +41,18 @@ class ModuleOptions extends AbstractOptions implements
      */
     protected $createUserAutoPassword = true;
 
+    protected $userMapper = 'ZfcUserAdmin\Mapper\UserDoctrine';
+
+    public function setUserMapper($userMapper)
+    {
+        $this->userMapper = $userMapper;
+    }
+
+    public function getUserMapper()
+    {
+        return $this->userMapper;
+    }
+
     public function setUserListElements(array $listElements)
     {
         $this->userListElements = $listElements;

@@ -43,7 +43,7 @@ class UserAdminController extends AbstractActionController
         }
 
         $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was created');
-        return $this->redirect()->toRoute('zfcuseradmin/list');
+        return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
     }
 
     public function editAction()
@@ -65,7 +65,7 @@ class UserAdminController extends AbstractActionController
         $this->getAdminUserService()->edit(get_object_vars($request->getPost()), $user);
 
         $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was edited');
-        return $this->redirect()->toRoute('zfcuseradmin/list');
+        return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
     }
 
     public function removeAction()
@@ -78,7 +78,7 @@ class UserAdminController extends AbstractActionController
             $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was deleted');
         }
 
-        return $this->redirect()->toRoute('zfcuseradmin/list');
+        return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
     }
 
     public function setOptions(ModuleOptions $options)

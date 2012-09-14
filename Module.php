@@ -69,8 +69,8 @@ class Module
                     return $form;
                 },
                 'zfcuser_user_mapper' => function ($sm) {
-                    $config = $sm->get('config');
-                    $mapper = $config['zfcuseradmin']['zfcuseradmin_user_mapper'];
+                    $config = $sm->get('zfcuseradmin_module_options');
+                    $mapper = $config->getUserMapper();
                     return new $mapper(
                         $sm->get('zfcuser_doctrine_em'),
                         $sm->get('zfcuser_module_options')

@@ -78,7 +78,7 @@ return array(
         'admin' => array(
             'zfcuseradmin' => array(
                 'label' => 'User',
-                'route' => 'zfcadmin/zfcuser/list',
+                'route' => 'zfcadmin/zfcuseradmin/list',
                 'pages' => array(
                     'create' => array(
                         'label' => 'New User',

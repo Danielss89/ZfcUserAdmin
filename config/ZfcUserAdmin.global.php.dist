@@ -12,14 +12,14 @@ $settings = array(
      * Mapper for ZfcUser
      *
      * Set the mapper to be used here
-     * Currently Avialable mappers 
+     * Currently Available mappers
      * 
      * ZfcUserAdmin\Mapper\UserDoctrine
      *
      * By default this is using
      * ZfcUserAdmin\Mapper\UserZendDb
      */
-    'zfcuseradmin_mapper' => 'ZfcUserAdmin\Mapper\UserDoctrine',
+    'user_mapper' => 'ZfcUserAdmin\Mapper\UserDoctrine',
 );
 
 /**
