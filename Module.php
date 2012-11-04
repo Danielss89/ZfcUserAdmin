@@ -70,11 +70,23 @@ class Module
                 },
                 'zfcuser_user_mapper' => function ($sm) {
                     $config = $sm->get('zfcuseradmin_module_options');
-                    $mapper = $config->getUserMapper();
-                    return new $mapper(
-                        $sm->get('zfcuser_doctrine_em'),
-                        $sm->get('zfcuser_module_options')
-                    );
+                    $mapperClass = $config->getUserMapper();
+                    if ($mapperClass = 'ZfcUserAdmin\Mapper\UserZendDb') {
+                        $zfcUserOptions = $sm->get('zfcuser_module_options');
+
+                        $mapper = new $mapperClass;
+                        $mapper->setDbAdapter($sm->get('zfcuser_zend_db_adapter'));
+                        $entityClass = $zfcUserOptions->getUserEntityClass();
+                        $mapper->setEntityPrototype(new $entityClass);
+                        $mapper->setHydrator(new \ZfcUser\Mapper\UserHydrator());
+                    } else {
+                        $mapper = new $mapperClass(
+                            $sm->get('zfcuser_doctrine_em'),
+                            $sm->get('zfcuser_module_options')
+                        );
+                    }
+
+                    return $mapper;
                 },
             ),
         );
