@@ -14,7 +14,11 @@ class UserAdminController extends AbstractActionController
     {
         $userMapper = $this->getUserMapper();
         $users = $userMapper->findAll();
-        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($users));
+        if (is_array($users)) {
+            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($users));
+        } else {
+            $paginator = $users;
+        }
 
 
         $paginator->setItemCountPerPage(100);
