@@ -18,7 +18,7 @@ class ModuleOptions extends AbstractOptions implements
      * @TODO: change "things" below
      * Array of "things" to show in the user list
      */
-    protected $userListElements = array('id', 'email');
+    protected $userListElements = array('Id' => 'id', 'Email address' => 'email');
 
     /**
      * Array of form elements to show when editing a user
