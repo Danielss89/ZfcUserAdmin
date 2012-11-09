@@ -1,5 +1,5 @@
 <?php if ($this->pageCount): ?>
-<div class="pagination">
+<div class="pagination pagination-centered pagination-small">
     <ul>
 
         <!-- First page link -->
@@ -32,3 +32,14 @@
     </ul>
 </div>
 <?php endif; ?>
+
+<?php
+$script = $this->inlineScript();
+$script->appendScript(<<<'EOT'
+    
+$(".pagination .disabled a").click(function() {
+  return false;
+});
+
+EOT
+);

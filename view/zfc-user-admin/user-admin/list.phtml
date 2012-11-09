@@ -5,19 +5,35 @@ if (isset($fm[0]))
     print '<span class=>' . $fm[0] . '</span>';
 }*/
 ?><table class="table">
+
     <?php
+    // Table header
+    echo "<tr>\n";
+    foreach($this->userlistElements as $name => $element) {
+        echo "<th>";
+        echo $this->escapeHtml($name ?: $element);
+        echo "</th>\n";
+    }
+    echo "<th></th>\n";
+    echo "</tr>\n";
+
+    // Users
     foreach ($this->users as $user)
     {
-        print "<tr>";
+        echo "<tr>";
         foreach($this->userlistElements as $element)
         {
             $func = 'get' . ucfirst($element);
-            print "<td class='row_" . $element . "'>" . $user->$func() . "</td>";
+            echo "<td class='row_" . $element . "'>" . $user->$func() . "</td>";
         }
         $editLink = $this->url('zfcadmin/zfcuseradmin/edit', array('userId' => $user->getId()));
         $deleteLink = $this->url('zfcadmin/zfcuseradmin/remove', array('userId' => $user->getId()));
-        print "<td><a href='" . $editLink . "'>Edit</a></td><td><a href='" . $deleteLink . "'>Delete</a></td></tr>";
+        echo "<td><a href='" . $editLink . "'>Edit</a> | <a href='" . $deleteLink . "'>Delete</a></td></tr>";
     }
     ?>
 </table>
 <?php echo $this->paginationControl($this->users, 'Sliding', 'zfc-user-admin/user-admin/pagination_userlist.phtml'); ?>
+
+<p>
+    <a class="" href="<?php echo $this->url('zfcadmin/zfcuseradmin/create');?>">Add new user</a>
+</p>
