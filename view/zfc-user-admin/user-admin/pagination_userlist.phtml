@@ -20,12 +20,12 @@
         <?php endforeach; ?>
 
         <!-- Next page link -->
-        <li<?php echo (isset($this->next)) ?: ' class="disabled"'; ?>>
+        <li<?php echo (isset($this->next)) ? '' : ' class="disabled"'; ?>>
             <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/list', array('p' => $this->next+9)); ?>">Next 10 &gt;</a>
         </li>
 
         <!-- Last page link -->
-        <li<?php echo (isset($this->next)) ?: ' class="disabled"'; ?>>
+        <li<?php echo (isset($this->next)) ? '' : ' class="disabled"'; ?>>
             <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/list', array('p' => $this->last)); ?>">Last &gt;&gt;</a>
         </li>
 
