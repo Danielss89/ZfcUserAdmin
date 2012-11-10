@@ -71,7 +71,7 @@ class Module
                 'zfcuser_user_mapper' => function ($sm) {
                     $config = $sm->get('zfcuseradmin_module_options');
                     $mapperClass = $config->getUserMapper();
-                    if ($mapperClass = 'ZfcUserAdmin\Mapper\UserZendDb') {
+                    if ($mapperClass == 'ZfcUserAdmin\Mapper\UserZendDb') {
                         $zfcUserOptions = $sm->get('zfcuser_module_options');
 
                         $mapper = new $mapperClass;
