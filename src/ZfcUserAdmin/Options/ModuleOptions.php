@@ -40,6 +40,13 @@ class ModuleOptions extends AbstractOptions implements
      * false = administrator chooses password
      */
     protected $createUserAutoPassword = true;
+    
+    /**
+     * If it sends an email to the user after it's creation
+     * 
+     * @var bool
+     */
+    protected $createUserSendsEmail = false;
 
     protected $userMapper = 'ZfcUserAdmin\Mapper\UserDoctrine';
 
@@ -90,4 +97,15 @@ class ModuleOptions extends AbstractOptions implements
     {
         return $this->createUserAutoPassword;
     }
+    
+	public function getCreateUserSendsEmail()
+    {
+        return $this->createUserSendsEmail;
+    }
+
+	public function setCreateUserSendsEmail($createUserSendsEmail)
+    {
+        $this->createUserSendsEmail = $createUserSendsEmail;
+    }
+
 }
