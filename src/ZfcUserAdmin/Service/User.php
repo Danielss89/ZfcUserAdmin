@@ -94,8 +94,6 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         }
         $this->getUserMapper()->update($user);
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'data' => $data));
-        $this->getUserMapper()->insert($user);
-        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'data' => $data));
         return $user;
     }
 
