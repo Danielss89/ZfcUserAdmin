@@ -35,9 +35,8 @@ class UserAdminController extends AbstractActionController
         $request = $this->getRequest();
 
         $user = false;
-        if($request->isPost())
-        {
-            $user = $this->getAdminUserService()->create((array) $request->getPost());
+        if ($request->isPost()) {
+            $user = $this->getAdminUserService()->create((array)$request->getPost());
         }
 
         if (!$user) {
@@ -46,7 +45,7 @@ class UserAdminController extends AbstractActionController
             );
         }
 
-        $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was created');
+        $this->flashMessenger()->addSuccessMessage('The user was created');
         return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
     }
 
@@ -68,18 +67,23 @@ class UserAdminController extends AbstractActionController
 
         $this->getAdminUserService()->edit(get_object_vars($request->getPost()), $user);
 
-        $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was edited');
+        $this->flashMessenger()->addSuccessMessage('The user was edited');
         return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
     }
 
     public function removeAction()
     {
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
-        $user = $this->getUserMapper()->findById($userId);
-        if($user)
-        {
-            $this->getUserMapper()->remove($user);
-            $this->flashMessenger()->setNamespace('zfcuseradmin')->addMessage('The user was deleted');
+
+        $identity = $this->zfcUserAuthentication()->getIdentity();
+        if ($identity && $identity->getId() == $userId) {
+            $this->flashMessenger()->addErrorMessage('You can not delete yourself');
+        } else {
+            $user = $this->getUserMapper()->findById($userId);
+            if ($user) {
+                $this->getUserMapper()->remove($user);
+                $this->flashMessenger()->addSuccessMessage('The user was deleted');
+            }
         }
 
         return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
