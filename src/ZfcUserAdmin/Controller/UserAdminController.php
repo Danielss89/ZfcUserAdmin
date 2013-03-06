@@ -20,7 +20,6 @@ class UserAdminController extends AbstractActionController
             $paginator = $users;
         }
 
-
         $paginator->setItemCountPerPage(100);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         return array(

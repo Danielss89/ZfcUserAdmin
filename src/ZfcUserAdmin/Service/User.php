@@ -9,6 +9,8 @@ use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Crypt\Password\Bcrypt;
 use ZfcBase\EventManager\EventProvider;
 use ZfcUserAdmin\Options\ModuleOptions;
+use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
+
 
 class User extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -28,9 +30,15 @@ class User extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $options;
 
+    /**
+     * @var ZfcUserModuleOptions
+     */
+    protected $zfcUserOptions;
+
+
     public function create(array $data)
     {
-        $zfcUserOptions = $this->getServiceManager()->get('zfcuser_module_options');
+        $zfcUserOptions = $this->getZfcUserOptions();
         $class = $zfcUserOptions->getUserEntityClass();
         $user  = new $class;
         $form  = $this->getServiceManager()->get('zfcuseradmin_createuser_form');
@@ -83,7 +91,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
                 if ($data['password'] !== $user->getPassword()) {
                     // Password does not match, so password was changed
                     $bcrypt = new Bcrypt();
-                    $bcrypt->setCost($this->getServiceManager()->get('zfcuser_module_options')->getPasswordCost());
+                    $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
                     $user->setPassword($bcrypt->create($data['password']));
                 }
             } else
@@ -134,6 +142,23 @@ class User extends EventProvider implements ServiceManagerAwareInterface
             $this->setOptions($this->getServiceManager()->get('zfcuseradmin_module_options'));
         }
         return $this->options;
+    }
+
+    public function setZfcUserOptions(ZfcUserModuleOptions $options)
+    {
+        $this->zfcUserOptions = $options;
+        return $this;
+    }
+
+    /**
+     * @return \ZfcUser\Options\ModuleOptions
+     */
+    public function getZfcUserOptions()
+    {
+        if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
+            $this->setZfcUserOptions($this->getServiceManager()->get('zfcuser_module_options'));
+        }
+        return $this->zfcUserOptions;
     }
 
     /**
