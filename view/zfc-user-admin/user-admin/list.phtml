@@ -17,6 +17,7 @@ if (isset($fm[0]))
     echo "<th></th>\n";
     echo "</tr>\n";
 
+    $confirm = $this->translate('Really delete user?');
     // Users
     foreach ($this->users as $user)
     {
@@ -28,7 +29,8 @@ if (isset($fm[0]))
         }
         $editLink = $this->url('zfcadmin/zfcuseradmin/edit', array('userId' => $user->getId()));
         $deleteLink = $this->url('zfcadmin/zfcuseradmin/remove', array('userId' => $user->getId()));
-        echo "<td><a href='" . $editLink . "'>Edit</a> | <a href='" . $deleteLink . "'>Delete</a></td></tr>";
+        echo "<td><a href='{$editLink}'>Edit</a> | ";
+        echo "<a href='{$deleteLink}' onclick='return confirm(\"{$confirm}\")'>Delete</a></td></tr>";
     }
     ?>
 </table>
