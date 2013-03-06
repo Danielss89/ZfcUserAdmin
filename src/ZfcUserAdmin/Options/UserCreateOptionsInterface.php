@@ -11,4 +11,8 @@ interface UserCreateOptionsInterface
     public function getCreateFormElements();
 
     public function setCreateFormElements(array $elements);
+    
+    public function getCreateUserSendsEmail();
+    
+    public function setCreateUserSendsEmail($createUserSendsEmail);
 }

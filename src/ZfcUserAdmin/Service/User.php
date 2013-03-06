@@ -57,8 +57,6 @@ class User extends EventProvider implements ServiceManagerAwareInterface
             $user->setPassword($rand);
         } else
 
-        //@TODO: Use ZfcMail(when ready)
-        mail($user->getEmail(), 'Password', 'Your password is: ' . $user->getPassword());
         $bcrypt = new Bcrypt;
         $bcrypt->setCost($zfcUserOptions->getPasswordCost());
         $user->setPassword($bcrypt->create($user->getPassword()));
@@ -79,6 +77,12 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'form' => $form, 'data' => $data));
         $this->getUserMapper()->insert($user);
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'form' => $form, 'data' => $data));
+        
+        if ($this->getOptions()->getCreateUserSendsEmail()) {
+            //@TODO: Use ZfcMail(when ready)
+            mail($user->getEmail(), 'Password', 'Your password is: ' . $user->getPassword());
+        }
+        
         return $user;
     }
 
