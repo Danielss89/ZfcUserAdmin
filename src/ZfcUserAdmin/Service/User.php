@@ -3,12 +3,15 @@
 namespace ZfcUserAdmin\Service;
 
 use Zend\Form\Form;
+use Zend\Math\Rand;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Crypt\Password\Bcrypt;
 use ZfcBase\EventManager\EventProvider;
+use ZfcUser\Entity\UserInterface;
 use ZfcUserAdmin\Options\ModuleOptions;
+use ZfcUser\Mapper\UserInterface as UserMapperInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 
 
@@ -26,7 +29,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     protected $serviceManager;
 
     /**
-     * @var UserServiceOptionsInterface
+     * @var \ZfcUser\Options\UserServiceOptionsInterface
      */
     protected $options;
 
@@ -40,8 +43,9 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     {
         $zfcUserOptions = $this->getZfcUserOptions();
         $class = $zfcUserOptions->getUserEntityClass();
-        $user  = new $class;
-        $form  = $this->getServiceManager()->get('zfcuseradmin_createuser_form');
+        /** @var $user UserInterface */
+        $user = new $class();
+        $form = $this->getServiceManager()->get('zfcuseradmin_createuser_form');
         $form->setHydrator(new ClassMethods());
         $form->bind($user);
         $form->setData($data);
@@ -51,17 +55,15 @@ class User extends EventProvider implements ServiceManagerAwareInterface
 
         $user = $form->getData();
 
-        if($this->getOptions()->getCreateUserAutoPassword())
-        {
-            $rand = \Zend\Math\Rand::getString(8);
-            $user->setPassword($rand);
-        } else
-
-        //@TODO: Use ZfcMail(when ready)
-        mail($user->getEmail(), 'Password', 'Your password is: ' . $user->getPassword());
+        $argv = array();
+        if ($this->getOptions()->getCreateUserAutoPassword()) {
+            $argv['password'] = Rand::getString(8);
+        } else {
+            $argv['password'] = $user->getPassword();
+        }
         $bcrypt = new Bcrypt;
         $bcrypt->setCost($zfcUserOptions->getPasswordCost());
-        $user->setPassword($bcrypt->create($user->getPassword()));
+        $user->setPassword($bcrypt->create($argv['password']));
 
         if ($zfcUserOptions->getEnableUsername()) {
             $user->setUsername($data['username']);
@@ -70,32 +72,33 @@ class User extends EventProvider implements ServiceManagerAwareInterface
             $user->setDisplayName($data['display_name']);
         }
 
-        foreach($this->getOptions()->getCreateFormElements() as $element)
-        {
-            $func = 'set' . ucfirst($element);
-            $user->$func($data[$element]);
+        foreach ($this->getOptions()->getCreateFormElements() as $element) {
+            $parts = explode('_', $element);
+            array_walk($parts, function (&$val) {
+                $val = ucfirst($val);
+            });
+            $setter = 'set' . implode('', $parts);
+            call_user_func(array($user, $setter), $data[$element]);
         }
 
-        $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'form' => $form, 'data' => $data));
+        $argv += array('user' => $user, 'form' => $form, 'data' => $data);
+        $this->getEventManager()->trigger(__FUNCTION__, $this, $argv);
         $this->getUserMapper()->insert($user);
-        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'form' => $form, 'data' => $data));
+        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, $argv);
         return $user;
     }
 
-    public function edit(array $data, $user)
+    public function edit(array $data, UserInterface $user)
     {
-        foreach($this->getOptions()->getEditFormElements() as $element)
-        {
-            if($element === 'password')
-            {
+        foreach ($this->getOptions()->getEditFormElements() as $element) {
+            if ($element === 'password') {
                 if ($data['password'] !== $user->getPassword()) {
                     // Password does not match, so password was changed
                     $bcrypt = new Bcrypt();
                     $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
                     $user->setPassword($bcrypt->create($data['password']));
                 }
-            } else
-            {
+            } else {
                 $func = 'set' . ucfirst($element);
                 $user->$func($data[$element]);
             }
@@ -105,11 +108,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         return $user;
     }
 
-    /**
-     * getUserMapper
-     *
-     * @return UserMapperInterface
-     */
+
     public function getUserMapper()
     {
         if (null === $this->userMapper) {
@@ -118,12 +117,6 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         return $this->userMapper;
     }
 
-    /**
-     * setUserMapper
-     *
-     * @param UserMapperInterface $userMapper
-     * @return User
-     */
     public function setUserMapper(UserMapperInterface $userMapper)
     {
         $this->userMapper = $userMapper;
@@ -174,7 +167,7 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     /**
      * Set service manager instance
      *
-     * @param ServiceManager $locator
+     * @param ServiceManager $serviceManager
      * @return User
      */
     public function setServiceManager(ServiceManager $serviceManager)

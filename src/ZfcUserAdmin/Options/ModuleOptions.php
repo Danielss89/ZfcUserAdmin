@@ -25,14 +25,14 @@ class ModuleOptions extends AbstractOptions implements
      * Key = form label
      * Value = entity property(expecting a 'getProperty()/setProperty()' function)
      */
-    protected $editFormElements = array('Email' => 'email', 'Password' => 'password');
+    protected $editFormElements = array('Email' => 'email');
 
     /**
      * Array of form elements to show when creating a user
      * Key = form label
      * Value = entity property(expecting a 'getProperty()/setProperty()' function)
      */
-    protected $createFormElements = array('Email' => 'email', 'Password' => 'password');
+    protected $createFormElements = array('Email' => 'email');
 
     /**
      * @var bool
@@ -63,11 +63,13 @@ class ModuleOptions extends AbstractOptions implements
         return $this->userListElements;
     }
 
-    public function getEditFormElements(){
+    public function getEditFormElements()
+    {
         return $this->editFormElements;
     }
 
-    public function setEditFormElements(array $elements){
+    public function setEditFormElements(array $elements)
+    {
         $this->editFormElements = $elements;
     }
 

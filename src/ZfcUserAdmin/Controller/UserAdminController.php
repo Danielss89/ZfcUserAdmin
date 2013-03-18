@@ -9,7 +9,11 @@ use ZfcUserAdmin\Options\ModuleOptions;
 
 class UserAdminController extends AbstractActionController
 {
-    protected $options, $userMapper, $adminUserService;
+    protected $options, $userMapper;
+    /**
+     * @var \ZfcUserAdmin\Service\User
+     */
+    protected $adminUserService;
 
     public function listAction()
     {
