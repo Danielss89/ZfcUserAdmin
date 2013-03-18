@@ -1,3 +1,14 @@
+<?php
+$getters = array();
+foreach ($this->userlistElements as $element) {
+    $parts = explode('_', $element);
+    array_walk($parts, function (&$val) {
+        $val = ucfirst($val);
+    });
+    $getters[$element] = 'get' . implode('', $parts);
+}
+?>
+
 <h1><?php echo $this->translate('Users') ?></h1>
 
 <div class="navbar filter-bar">
@@ -24,7 +35,8 @@
         <tr>
             <?php foreach ($this->userlistElements as $element): ?>
                 <td class="cell cell-<?php echo $this->escapeHtml($element) ?>">
-                    <?php echo call_user_func(array($user, 'get' . ucfirst($element))) ?>
+                    <?php $parts = explode('_', $element); ?>
+                    <?php echo call_user_func(array($user, $getters[$element])); ?>
                 </td>
             <?php endforeach; ?>
             <td class="cell cell-ctrls">
