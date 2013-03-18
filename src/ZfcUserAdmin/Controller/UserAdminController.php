@@ -3,7 +3,8 @@
 namespace ZfcUserAdmin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Zend\Paginator;
+use ZfcUser\Mapper\UserInterface;
 use ZfcUserAdmin\Options\ModuleOptions;
 
 class UserAdminController extends AbstractActionController
@@ -15,7 +16,7 @@ class UserAdminController extends AbstractActionController
         $userMapper = $this->getUserMapper();
         $users = $userMapper->findAll();
         if (is_array($users)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($users));
+            $paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter($users));
         } else {
             $paginator = $users;
         }
@@ -34,6 +35,7 @@ class UserAdminController extends AbstractActionController
         $request = $this->getRequest();
 
         $user = false;
+        /** @var $request \Zend\Http\Request */
         if ($request->isPost()) {
             $user = $this->getAdminUserService()->create((array)$request->getPost());
         }
@@ -54,8 +56,9 @@ class UserAdminController extends AbstractActionController
         $user = $this->getUserMapper()->findById($userId);
         $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
         $form->setUser($user);
-        $request = $this->getRequest();
 
+        /** @var $request \Zend\Http\Request */
+        $request = $this->getRequest();
         if (!$request->isPost()) {
             $form->populateFromUser($user);
             return array(
@@ -74,6 +77,7 @@ class UserAdminController extends AbstractActionController
     {
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
 
+        /** @var $identity \ZfcUser\Entity\UserInterface */
         $identity = $this->zfcUserAuthentication()->getIdentity();
         if ($identity && $identity->getId() == $userId) {
             $this->flashMessenger()->addErrorMessage('You can not delete yourself');
@@ -110,7 +114,7 @@ class UserAdminController extends AbstractActionController
         return $this->userMapper;
     }
 
-    public function setUserMapper(UserMapperInterface $userMapper)
+    public function setUserMapper(UserInterface $userMapper)
     {
         $this->userMapper = $userMapper;
         return $this;
