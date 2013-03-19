@@ -14,6 +14,10 @@ class CreateUser extends Register
     protected $createOptionsOptions;
 
     protected $serviceManager;
+    /**
+     * @var UserCreateOptionsInterface
+     */
+    protected $createOptions;
 
     public function __construct($name = null, UserCreateOptionsInterface $createOptions, RegistrationOptionsInterface $registerOptions, $serviceManager)
     {
@@ -21,14 +25,15 @@ class CreateUser extends Register
         $this->setServiceManager($serviceManager);
         parent::__construct($name, $registerOptions);
 
-        if($createOptions->getCreateUserAutoPassword())
-        {
+        if ($createOptions->getCreateUserAutoPassword()) {
             $this->remove('password');
             $this->remove('passwordVerify');
         }
 
-        foreach($this->getCreateOptions()->getCreateFormElements() as $name => $element)
-        {
+        foreach ($this->getCreateOptions()->getCreateFormElements() as $name => $element) {
+            // avoid adding fields twice (e.g. email)
+            if ($this->get($element)) continue;
+
             $this->add(array(
                 'name' => $element,
                 'options' => array(

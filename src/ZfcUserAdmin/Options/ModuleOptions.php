@@ -25,14 +25,14 @@ class ModuleOptions extends AbstractOptions implements
      * Key = form label
      * Value = entity property(expecting a 'getProperty()/setProperty()' function)
      */
-    protected $editFormElements = array('Email' => 'email', 'Password' => 'password');
+    protected $editFormElements = array();
 
     /**
      * Array of form elements to show when creating a user
      * Key = form label
      * Value = entity property(expecting a 'getProperty()/setProperty()' function)
      */
-    protected $createFormElements = array('Email' => 'email', 'Password' => 'password');
+    protected $createFormElements = array();
 
     /**
      * @var bool
@@ -40,6 +40,12 @@ class ModuleOptions extends AbstractOptions implements
      * false = administrator chooses password
      */
     protected $createUserAutoPassword = true;
+
+    /**
+     * @var bool
+     * Allow change user password on user edit form.
+     */
+    protected $allowPasswordChange = true;
 
     protected $userMapper = 'ZfcUserAdmin\Mapper\UserDoctrine';
 
@@ -63,11 +69,13 @@ class ModuleOptions extends AbstractOptions implements
         return $this->userListElements;
     }
 
-    public function getEditFormElements(){
+    public function getEditFormElements()
+    {
         return $this->editFormElements;
     }
 
-    public function setEditFormElements(array $elements){
+    public function setEditFormElements(array $elements)
+    {
         $this->editFormElements = $elements;
     }
 
@@ -89,5 +97,15 @@ class ModuleOptions extends AbstractOptions implements
     public function getCreateUserAutoPassword()
     {
         return $this->createUserAutoPassword;
+    }
+
+    public function getAllowPasswordChange()
+    {
+        return $this->allowPasswordChange;
+    }
+
+    public function setAdminPasswordChange($allowPasswordChange)
+    {
+        $this->allowPasswordChange = $allowPasswordChange;
     }
 }

@@ -2,26 +2,52 @@
 
 namespace ZfcUserAdmin\Form;
 
+use ZfcUser\Entity\UserInterface;
+use ZfcUser\Form\Register;
+use ZfcUser\Options\RegistrationOptionsInterface;
 use ZfcUserAdmin\Options\UserEditOptionsInterface;
 use Zend\Form\Form;
 use Zend\Form\Element;
-use ZfcBase\Form\ProvidesEventsForm;
 
-class EditUser extends ProvidesEventsForm
+class EditUser extends Register
 {
+    /**
+     * @var \ZfcUserAdmin\Options\UserEditOptionsInterface
+     */
     protected $userEditOptions;
     protected $userEntity;
     protected $serviceManager;
 
-    public function __construct($name = null, UserEditOptionsInterface $options, $serviceManager)
+    public function __construct($name = null, UserEditOptionsInterface $options, RegistrationOptionsInterface $registerOptions, $serviceManager)
     {
         $this->setUserEditOptions($options);
-        parent::__construct($name);
-
         $this->setServiceManager($serviceManager);
+        parent::__construct($name, $registerOptions);
 
-        foreach($this->getUserEditOptions()->getEditFormElements() as $name => $element)
-        {
+        $this->remove('captcha');
+
+        if ($this->userEditOptions->getAllowPasswordChange()) {
+            $this->add(array(
+                'name' => 'reset_password',
+                'type' => 'Zend\Form\Element\Checkbox',
+                'options' => array(
+                    'label' => 'Reset password to random',
+                ),
+            ));
+
+            $password = $this->get('password');
+            $password->setAttribute('required', false);
+            $password->setOptions(array('label' => 'Password (only if want to change)'));
+
+            $this->remove('passwordVerify');
+        } else {
+            $this->remove('password')->remove('passwordVerify');
+        }
+
+        foreach ($this->getUserEditOptions()->getEditFormElements() as $name => $element) {
+            // avoid adding fields twice (e.g. email)
+            if ($this->get($element)) continue;
+
             $this->add(array(
                 'name' => $element,
                 'options' => array(
@@ -33,16 +59,7 @@ class EditUser extends ProvidesEventsForm
             ));
         }
 
-        $submitElement = new Element\Button('submit');
-        $submitElement
-            ->setLabel('Edit')
-            ->setAttributes(array(
-                'type'  => 'submit',
-            ));
-            
-        $this->add($submitElement, array(
-            'priority' => -100,
-        ));
+        $this->get('submit')->setLabel('Edit')->setValue('Edit');
 
         $this->add(array(
             'name' => 'userId',
@@ -65,14 +82,31 @@ class EditUser extends ProvidesEventsForm
         return $this->userEntity;
     }
 
-    public function populateFromUser($user)
+    public function populateFromUser(UserInterface $user)
     {
-        foreach($this->getUserEditOptions()->getEditFormElements() as $element)
-        {
-            $func = 'get' . ucfirst($element);
-            $this->get($element)->setValue($user->$func());
+        foreach ($this->getElements() as $element) {
+            /** @var $element \Zend\Form\Element */
+            $elementName = $element->getName();
+            if (strpos($elementName, 'password') === 0) continue;
+
+            $getter = $this->getAccessorName($elementName, false);
+            if (method_exists($user, $getter)) $element->setValue(call_user_func(array($user, $getter)));
+        }
+
+        foreach ($this->getUserEditOptions()->getEditFormElements() as $element) {
+            $getter = $this->getAccessorName($element, false);
+            $this->get($element)->setValue(call_user_func(array($user, $getter)));
         }
         $this->get('userId')->setValue($user->getId());
+    }
+
+    protected function getAccessorName($property, $set = true)
+    {
+        $parts = explode('_', $property);
+        array_walk($parts, function (&$val) {
+            $val = ucfirst($val);
+        });
+        return (($set ? 'set' : 'get') . implode('', $parts));
     }
 
     public function setUserEditOptions(UserEditOptionsInterface $userEditOptions)
