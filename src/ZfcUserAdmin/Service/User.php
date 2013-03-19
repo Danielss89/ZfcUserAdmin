@@ -6,7 +6,6 @@ use Zend\Form\Form;
 use Zend\Math\Rand;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Crypt\Password\Bcrypt;
 use ZfcBase\EventManager\EventProvider;
 use ZfcUser\Entity\UserInterface;
