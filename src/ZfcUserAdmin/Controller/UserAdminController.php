@@ -4,12 +4,15 @@ namespace ZfcUserAdmin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator;
+use Zend\Stdlib\Hydrator\ClassMethods;
 use ZfcUser\Mapper\UserInterface;
+use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use ZfcUserAdmin\Options\ModuleOptions;
 
 class UserAdminController extends AbstractActionController
 {
     protected $options, $userMapper;
+    protected $zfcUserOptions;
     /**
      * @var \ZfcUserAdmin\Service\User
      */
@@ -35,46 +38,61 @@ class UserAdminController extends AbstractActionController
 
     public function createAction()
     {
+        /** @var $form \ZfcUserAdmin\Form\CreateUser */
         $form = $this->getServiceLocator()->get('zfcuseradmin_createuser_form');
         $request = $this->getRequest();
 
-        $user = false;
         /** @var $request \Zend\Http\Request */
         if ($request->isPost()) {
-            $user = $this->getAdminUserService()->create((array)$request->getPost());
+            $zfcUserOptions = $this->getZfcUserOptions();
+            $class = $zfcUserOptions->getUserEntityClass();
+            $user = new $class();
+            $form->setHydrator(new ClassMethods());
+            $form->bind($user);
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $user = $this->getAdminUserService()->create($form, (array)$request->getPost());
+                if ($user) {
+                    $this->flashMessenger()->addSuccessMessage('The user was created');
+                    return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
+                }
+            }
         }
 
-        if (!$user) {
-            return array(
-                'createUserForm' => $form
-            );
-        }
-
-        $this->flashMessenger()->addSuccessMessage('The user was created');
-        return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
+        return array(
+            'createUserForm' => $form
+        );
     }
 
     public function editAction()
     {
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
         $user = $this->getUserMapper()->findById($userId);
+
+        /** @var $form \ZfcUserAdmin\Form\EditUser */
         $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
         $form->setUser($user);
 
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
-        if (!$request->isPost()) {
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                $user = $this->getAdminUserService()->edit($form, (array)$request->getPost(), $user);
+                if ($user) {
+                    $this->flashMessenger()->addSuccessMessage('The user was edited');
+                    return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
+                }
+            }
+        } else {
             $form->populateFromUser($user);
-            return array(
-                'editUserForm' => $form,
-                'userId' => $userId
-            );
         }
 
-        $this->getAdminUserService()->edit(get_object_vars($request->getPost()), $user);
-
-        $this->flashMessenger()->addSuccessMessage('The user was edited');
-        return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
+        return array(
+            'editUserForm' => $form,
+            'userId' => $userId
+        );
     }
 
     public function removeAction()
@@ -136,5 +154,22 @@ class UserAdminController extends AbstractActionController
     {
         $this->adminUserService = $service;
         return $this;
+    }
+
+    public function setZfcUserOptions(ZfcUserModuleOptions $options)
+    {
+        $this->zfcUserOptions = $options;
+        return $this;
+    }
+
+    /**
+     * @return \ZfcUser\Options\ModuleOptions
+     */
+    public function getZfcUserOptions()
+    {
+        if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
+            $this->setZfcUserOptions($this->getServiceLocator()->get('zfcuser_module_options'));
+        }
+        return $this->zfcUserOptions;
     }
 }

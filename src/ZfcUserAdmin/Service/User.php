@@ -39,20 +39,9 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     protected $zfcUserOptions;
 
 
-    public function create(array $data)
+    public function create(Form $form, array $data)
     {
         $zfcUserOptions = $this->getZfcUserOptions();
-        $class = $zfcUserOptions->getUserEntityClass();
-        /** @var $user UserInterface */
-        $user = new $class();
-        $form = $this->getServiceManager()->get('zfcuseradmin_createuser_form');
-        $form->setHydrator(new ClassMethods());
-        $form->bind($user);
-        $form->setData($data);
-        if (!$form->isValid()) {
-            return false;
-        }
-
         $user = $form->getData();
 
         $argv = array();
@@ -65,20 +54,8 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         $bcrypt->setCost($zfcUserOptions->getPasswordCost());
         $user->setPassword($bcrypt->create($argv['password']));
 
-        if ($zfcUserOptions->getEnableUsername()) {
-            $user->setUsername($data['username']);
-        }
-        if ($zfcUserOptions->getEnableDisplayName()) {
-            $user->setDisplayName($data['display_name']);
-        }
-
         foreach ($this->getOptions()->getCreateFormElements() as $element) {
-            $parts = explode('_', $element);
-            array_walk($parts, function (&$val) {
-                $val = ucfirst($val);
-            });
-            $setter = 'set' . implode('', $parts);
-            call_user_func(array($user, $setter), $data[$element]);
+            call_user_func(array($user, $this->getAccessorName($element)), $data[$element]);
         }
 
         $argv += array('user' => $user, 'form' => $form, 'data' => $data);
@@ -88,26 +65,52 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         return $user;
     }
 
-    public function edit(array $data, UserInterface $user)
+    public function edit(Form $form, array $data, UserInterface $user)
     {
-        foreach ($this->getOptions()->getEditFormElements() as $element) {
-            if ($element === 'password') {
-                if ($data['password'] !== $user->getPassword()) {
-                    // Password does not match, so password was changed
-                    $bcrypt = new Bcrypt();
-                    $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
-                    $user->setPassword($bcrypt->create($data['password']));
-                }
-            } else {
-                $func = 'set' . ucfirst($element);
-                $user->$func($data[$element]);
+        // first, process all form fields
+        foreach ($data as $key => $value) {
+            if ($key == 'password') continue;
+
+            $setter = $this->getAccessorName($key);
+            if (method_exists($user, $setter)) call_user_func(array($user, $setter), $value);
+        }
+
+        $argv = array();
+        // then check if admin wants to change user password
+        if ($this->getOptions()->getAllowPasswordChange()) {
+            if (!empty($data['reset_password'])) {
+                $argv['password'] = Rand::getString(8);
+            } elseif (!empty($data['password'])) {
+                $argv['password'] = $data['password'];
+            }
+
+            if (!empty($argv['password'])) {
+                $bcrypt = new Bcrypt();
+                $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
+                $user->setPassword($bcrypt->create($argv['password']));
             }
         }
+
+        // TODO: not sure if this code is required here - all fields that came from the form already saved
+        foreach ($this->getOptions()->getEditFormElements() as $element) {
+            call_user_func(array($user, $this->getAccessorName($element)), $data[$element]);
+        }
+
+        $argv += array('user' => $user, 'form' => $form, 'data' => $data);
+        $this->getEventManager()->trigger(__FUNCTION__, $this, $argv);
         $this->getUserMapper()->update($user);
-        $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'data' => $data));
+        $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, $argv);
         return $user;
     }
 
+    protected function getAccessorName($property, $set = true)
+    {
+        $parts = explode('_', $property);
+        array_walk($parts, function (&$val) {
+            $val = ucfirst($val);
+        });
+        return (($set ? 'set' : 'get') . implode('', $parts));
+    }
 
     public function getUserMapper()
     {
