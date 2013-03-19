@@ -10,10 +10,10 @@
                 <dd><?php echo $this->formButton($element) ?></dd>
             <?php elseif ($element instanceof Zend\Form\Element\Select): ?>
                 <dd><?php echo $this->formSelect($element) . $this->formElementErrors($element) ?></dd>
-            <?php elseif ($isCheckbox): ?>
-                <dd><?php echo $this->formCheckbox($element) ?></dd>
             <?php elseif ($element instanceof Zend\Form\Element\MultiCheckbox): ?>
                 <dd><?php echo $this->formMultiCheckbox($element) . $this->formElementErrors($element) ?></dd>
+            <?php elseif ($isCheckbox): ?>
+                <dd><?php echo $this->formCheckbox($element) ?></dd>
             <?php else: ?>
                 <dd><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></dd>
             <?php endif ?>
