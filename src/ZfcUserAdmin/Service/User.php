@@ -38,6 +38,11 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     protected $zfcUserOptions;
 
 
+    /**
+     * @param Form $form
+     * @param array $data
+     * @return UserInterface|null
+     */
     public function create(Form $form, array $data)
     {
         $zfcUserOptions = $this->getZfcUserOptions();
@@ -64,6 +69,12 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         return $user;
     }
 
+    /**
+     * @param Form $form
+     * @param array $data
+     * @param UserInterface $user
+     * @return UserInterface
+     */
     public function edit(Form $form, array $data, UserInterface $user)
     {
         // first, process all form fields
