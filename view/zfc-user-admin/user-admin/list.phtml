@@ -1,41 +1,62 @@
 <?php
-/*$fm = $this->flashMessenger()->setNamespace('zfcuseradmin')->getMessages();
-if (isset($fm[0]))
-{
-    print '<span class=>' . $fm[0] . '</span>';
-}*/
-?><table class="table">
+$getters = array();
+foreach ($this->userlistElements as $element) {
+    $parts = explode('_', $element);
+    array_walk($parts, function (&$val) {
+        $val = ucfirst($val);
+    });
+    $getters[$element] = 'get' . implode('', $parts);
+}
+?>
 
-    <?php
-    // Table header
-    echo "<tr>\n";
-    foreach($this->userlistElements as $name => $element) {
-        echo "<th>";
-        echo $this->escapeHtml($name ?: $element);
-        echo "</th>\n";
-    }
-    echo "<th></th>\n";
-    echo "</tr>\n";
+<h1><?php echo $this->translate('Users') ?></h1>
 
-    $confirm = $this->translate('Really delete user?');
-    // Users
-    foreach ($this->users as $user)
-    {
-        echo "<tr>";
-        foreach($this->userlistElements as $element)
-        {
-            $func = 'get' . ucfirst($element);
-            echo "<td class='row_" . $element . "'>" . $user->$func() . "</td>";
-        }
-        $editLink = $this->url('zfcadmin/zfcuseradmin/edit', array('userId' => $user->getId()));
-        $deleteLink = $this->url('zfcadmin/zfcuseradmin/remove', array('userId' => $user->getId()));
-        echo "<td><a href='{$editLink}'>Edit</a> | ";
-        echo "<a href='{$deleteLink}' onclick='return confirm(\"{$confirm}\")'>Delete</a></td></tr>";
-    }
-    ?>
+<div class="navbar filter-bar">
+    <div class="navbar-inner">
+        <div class="pull-right">
+            <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/create') ?>" class="btn btn-primary">
+                <?php echo $this->translate('Add New User') ?>
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <?php foreach ($this->userlistElements as $name => $element): ?>
+                <th><?php echo $this->escapeHtml($name ? : $element); ?></th>
+            <?php endforeach; ?>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->users as $user): ?>
+        <tr>
+            <?php foreach ($this->userlistElements as $element): ?>
+                <td class="cell cell-<?php echo $this->escapeHtml($element) ?>">
+                    <?php $parts = explode('_', $element); ?>
+                    <?php echo call_user_func(array($user, $getters[$element])); ?>
+                </td>
+            <?php endforeach; ?>
+            <td class="cell cell-ctrls">
+                <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/edit', array('userId' => $user->getId())); ?>">
+                    <?php echo $this->translate('Edit') ?>
+                </a>
+                |
+                <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/remove', array('userId' => $user->getId())); ?>"
+                   onclick="return confirm('<?php echo $this->translate('Really delete user?') ?>')">
+                    <?php echo $this->translate('Delete') ?>
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="<?php echo count($this->userlistElements) + 1; ?>">
+            <?php echo $this->paginationControl($this->users, 'Sliding', 'zfc-user-admin/user-admin/pagination_userlist.phtml'); ?>
+        </td>
+    </tr>
+    </tfoot>
 </table>
-<?php echo $this->paginationControl($this->users, 'Sliding', 'zfc-user-admin/user-admin/pagination_userlist.phtml'); ?>
-
-<p>
-    <a class="" href="<?php echo $this->url('zfcadmin/zfcuseradmin/create');?>">Add new user</a>
-</p>
