@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zf-commons/zfc-user": "dev-master"
+        "zf-commons/zfc-user": "0.1.1"
+        "zf-commons/zfc-admin": "0.1.1"
     },
     "autoload": {
         "psr-0": {
