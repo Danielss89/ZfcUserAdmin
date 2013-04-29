@@ -15,8 +15,9 @@ class ModuleOptions extends AbstractOptions implements
     protected $__strictMode__ = false;
 
     /**
-     * @TODO: change "things" below
-     * Array of "things" to show in the user list
+     * Array of data to show in the user list
+     * Key = Label in the list
+     * Value = entity property(expecting a 'getProperty())
      */
     protected $userListElements = array('Id' => 'id', 'Email address' => 'email');
 
