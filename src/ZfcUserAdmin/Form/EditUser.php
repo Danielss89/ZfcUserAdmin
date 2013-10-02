@@ -67,8 +67,6 @@ class EditUser extends Register
                 'type' => 'hidden'
             ),
         ));
-
-        $this->getEventManager()->trigger('init', $this);
     }
 
     public function setUser($userEntity)
