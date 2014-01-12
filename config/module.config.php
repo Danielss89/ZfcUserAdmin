@@ -82,7 +82,7 @@ return array(
                 'pages' => array(
                     'create' => array(
                         'label' => 'New User',
-                        'route' => 'admin/create',
+                        'route' => 'zfcadmin/zfcuseradmin/create',
                     ),
                 ),
             ),
