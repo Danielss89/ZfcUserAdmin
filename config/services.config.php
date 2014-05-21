@@ -89,7 +89,10 @@ return array(
                 $mapper->setDbAdapter($sm->get('zfcuser_zend_db_adapter'));
                 $entityClass = $zfcUserOptions->getUserEntityClass();
                 $mapper->setEntityPrototype(new $entityClass);
-                $mapper->setHydrator(new UserHydrator());
+                
+                $crypto  = new Bcrypt;
+                $crypto->setCost($zfcUserOptions->getPasswordCost());
+                $mapper->setHydrator(new UserHydrator($crypto));
             }
 
             return $mapper;
