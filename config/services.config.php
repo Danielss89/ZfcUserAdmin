@@ -11,6 +11,7 @@ use ZfcUser\Validator\NoRecordExists;
 use ZfcUserAdmin\Form;
 use ZfcUserAdmin\Options;
 use ZfcUserAdmin\Validator\NoRecordExistsEdit;
+use Zend\Crypt\Password\Bcrypt;
 
 return array(
     'invokables' => array(
