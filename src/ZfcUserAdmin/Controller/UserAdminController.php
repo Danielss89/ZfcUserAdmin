@@ -72,7 +72,7 @@ class UserAdminController extends AbstractActionController
 
         /** @var $form \ZfcUserAdmin\Form\EditUser */
         $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
-        $form->setUser($user);
+        $form->bind($user);
 
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
