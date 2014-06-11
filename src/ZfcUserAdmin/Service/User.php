@@ -77,16 +77,8 @@ class User extends EventProvider implements ServiceManagerAwareInterface
      */
     public function edit(Form $form, array $data, UserInterface $user)
     {
-        // first, process all form fields
-        foreach ($data as $key => $value) {
-            if ($key == 'password') continue;
-
-            $setter = $this->getAccessorName($key);
-            if (method_exists($user, $setter)) call_user_func(array($user, $setter), $value);
-        }
-
         $argv = array();
-        // then check if admin wants to change user password
+        // check if admin wants to change user password
         if ($this->getOptions()->getAllowPasswordChange()) {
             if (!empty($data['reset_password'])) {
                 $argv['password'] = Rand::getString(8);
@@ -99,11 +91,6 @@ class User extends EventProvider implements ServiceManagerAwareInterface
                 $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
                 $user->setPassword($bcrypt->create($argv['password']));
             }
-        }
-
-        // TODO: not sure if this code is required here - all fields that came from the form already saved
-        foreach ($this->getOptions()->getEditFormElements() as $element) {
-            call_user_func(array($user, $this->getAccessorName($element)), $data[$element]);
         }
 
         $argv += array('user' => $user, 'form' => $form, 'data' => $data);
