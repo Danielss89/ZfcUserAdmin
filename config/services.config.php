@@ -11,6 +11,7 @@ use ZfcUser\Validator\NoRecordExists;
 use ZfcUserAdmin\Form;
 use ZfcUserAdmin\Options;
 use ZfcUserAdmin\Validator\NoRecordExistsEdit;
+use Zend\Crypt\Password\Bcrypt;
 
 return array(
     'invokables' => array(
@@ -89,7 +90,7 @@ return array(
                 $mapper->setDbAdapter($sm->get('zfcuser_zend_db_adapter'));
                 $entityClass = $zfcUserOptions->getUserEntityClass();
                 $mapper->setEntityPrototype(new $entityClass);
-                $mapper->setHydrator(new UserHydrator());
+                $mapper->setHydrator(new UserHydrator(new Bcrypt));
             }
 
             return $mapper;
