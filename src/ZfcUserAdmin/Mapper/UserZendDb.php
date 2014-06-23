@@ -26,6 +26,7 @@ class UserZendDb extends ZfcUserMapper
      */
     public function remove($entity)
     {
+        $this->getEventManager()->trigger('remove.pre', $this, array('entity' => $entity));
         $id = $entity->getId();
         $this->delete(array('user_id' => $id));
         $this->getEventManager()->trigger('remove', $this, array('entity' => $entity));
