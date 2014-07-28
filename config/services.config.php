@@ -90,6 +90,7 @@ return array(
                 $entityClass = $zfcUserOptions->getUserEntityClass();
                 $mapper->setEntityPrototype(new $entityClass);
                 $mapper->setHydrator(new UserHydrator());
+                $mapper->setTableName($zfcUserOptions->getTableName());
             }
 
             return $mapper;
