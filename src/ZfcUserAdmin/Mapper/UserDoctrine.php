@@ -15,6 +15,7 @@ class UserDoctrine extends ZfcUserDoctrineMapper
     
     public function remove($entity)
     {
+        $this->getEventManager()->trigger('remove.pre', $this, array('entity' => $entity));
         $this->em->remove($entity);
         $this->em->flush();
         $this->getEventManager()->trigger('remove', $this, array('entity' => $entity));
