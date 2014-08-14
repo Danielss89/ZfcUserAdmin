@@ -59,7 +59,7 @@ class EditUser extends Register
             ));
         }
 
-        $this->get('submit')->setLabel('Edit')->setValue('Edit');
+        $this->get('submit')->setLabel('Save')->setValue('Save');
 
         $this->add(array(
             'name' => 'userId',
