@@ -20,6 +20,14 @@ $settings = array(
      * ZfcUserAdmin\Mapper\UserZendDb
      */
     'user_mapper' => 'ZfcUserAdmin\Mapper\UserDoctrine',
+    
+    /**
+     * Users per page
+     * 
+     * Specify the number of user which will display per page. 
+     * Default is 100 users per page.
+     */
+    // 'userCountPerPage' => 100,
 );
 
 /**
