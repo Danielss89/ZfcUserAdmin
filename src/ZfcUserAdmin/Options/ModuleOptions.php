@@ -47,6 +47,12 @@ class ModuleOptions extends AbstractOptions implements
      * Allow change user password on user edit form.
      */
     protected $allowPasswordChange = true;
+    
+    /**
+     * @var int
+     * Count users show per page 
+     */
+    protected $userCountPerPage = 100;
 
     protected $userMapper = 'ZfcUserAdmin\Mapper\UserDoctrine';
 
@@ -108,5 +114,13 @@ class ModuleOptions extends AbstractOptions implements
     public function setAdminPasswordChange($allowPasswordChange)
     {
         $this->allowPasswordChange = $allowPasswordChange;
+    }
+
+    public function getUserCountPerPage() {
+        return $this->userCountPerPage;
+    }
+
+    public function setUserCountPerPage($UserCountPerPage) {
+        $this->userCountPerPage = (int) $UserCountPerPage;
     }
 }
