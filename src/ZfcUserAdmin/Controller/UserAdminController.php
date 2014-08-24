@@ -47,7 +47,8 @@ class UserAdminController extends AbstractActionController
             $zfcUserOptions = $this->getZfcUserOptions();
             $class = $zfcUserOptions->getUserEntityClass();
             $user = new $class();
-            $form->setHydrator(new ClassMethods());
+            $hydrator = $this->getServiceLocator()->get('zfcuser_user_hydrator');
+            $form->setHydrator($hydrator);
             $form->bind($user);
             $form->setData($request->getPost());
 
@@ -72,7 +73,9 @@ class UserAdminController extends AbstractActionController
 
         /** @var $form \ZfcUserAdmin\Form\EditUser */
         $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
-        $form->setUser($user);
+        $hydrator = $this->getServiceLocator()->get('zfcuser_user_hydrator');
+        $form->setHydrator($hydrator);
+        $form->bind($user);
 
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
