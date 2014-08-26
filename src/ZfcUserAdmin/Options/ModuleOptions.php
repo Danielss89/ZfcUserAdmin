@@ -54,7 +54,7 @@ class ModuleOptions extends AbstractOptions implements
      */
     protected $allowPasswordChange = true;
 
-    protected $userMapper = 'ZfcUserAdmin\Mapper\UserDoctrine';
+    protected $userMapper = 'ZfcUserAdmin\Mapper\UserZendDb';
 
     public function setUserMapper($userMapper)
     {
