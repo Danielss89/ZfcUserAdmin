@@ -20,6 +20,52 @@ $settings = array(
      * ZfcUserAdmin\Mapper\UserZendDb
      */
     'user_mapper' => 'ZfcUserAdmin\Mapper\UserDoctrine',
+
+    /**
+     * Array of data to show in the user list
+     * Key = Label in the list
+     * Value = entity property(expecting a 'getProperty())
+     * Default value:  array('Id' => 'id', 'Email address' => 'email')
+     */
+    'userListElements' => array('Id' => 'id', 'Email address' => 'email'),
+
+    /**
+     * Array of form elements to show when editing a user
+     * Key = form label
+     * Value = entity property(expecting a 'getProperty()/setProperty()' function)
+     * Default value: array()
+     */
+    'editFormElements' => array(),
+
+    /**
+     * Array of form elements to show when creating a user
+     * Key = form label
+     * Value = entity property(expecting a 'getProperty()/setProperty()' function)
+     * Default value: array()
+     */
+    'createFormElements' => array(),
+
+    /**
+     * @var bool
+     * true = create password automaticly
+     * false = administrator chooses password
+     * Default value: true
+     */
+    'createUserAutoPassword' => true,
+
+    /**
+     * @var int
+     * Length of passwords created automatically
+     * default value: 8
+     */
+    'autoPasswordLength' => 8,
+
+    /**
+     * @var bool
+     * Allow change user password on user edit form.
+     * default value: true
+     */
+    'allowPasswordChange' => true,
 );
 
 /**
