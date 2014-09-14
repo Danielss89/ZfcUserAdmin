@@ -1,25 +1,29 @@
-<?php echo $this->form()->openTag($form) ?>
-    <dl class="zend_form">
-        <?php foreach ($form as $element): ?>
-            <?php $isButton = $element instanceof Zend\Form\Element\Button; ?>
-            <?php $isCheckbox = $element instanceof Zend\Form\Element\Checkbox || $element->getAttribute('type') == 'checkbox'; ?>
-            <?php if ($element->getLabel() != null && !$isButton): ?>
-                <dt><?php echo $this->formLabel($element) ?></dt>
-            <?php endif ?>
-            <?php if ($isButton): ?>
-                <dd><?php echo $this->formButton($element) ?></dd>
-            <?php elseif ($element instanceof Zend\Form\Element\Select): ?>
-                <dd><?php echo $this->formSelect($element) . $this->formElementErrors($element) ?></dd>
-            <?php elseif ($element instanceof Zend\Form\Element\MultiCheckbox): ?>
-                <dd><?php echo $this->formMultiCheckbox($element) . $this->formElementErrors($element) ?></dd>
-            <?php elseif ($isCheckbox): ?>
-                <dd><?php echo $this->formCheckbox($element) ?></dd>
-            <?php else: ?>
-                <dd><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></dd>
-            <?php endif ?>
-        <?php endforeach ?>
-    </dl>
+<?php echo $this->form()->openTag($form); ?>
+<?php foreach ($form as $element): ?>
+    <?php $element->setAttribute('class', 'form-control'); ?>
+    <div class="form-group">
+        <?php $isButton = $element instanceof Zend\Form\Element\Button; ?>
+        <?php $isCheckbox = $element instanceof Zend\Form\Element\Checkbox || $element->getAttribute('type') == 'checkbox'; ?>
+        <?php if ($element->getLabel() != null && !$isButton): ?>
+            <?php echo $this->formLabel($element); ?>
+        <?php endif ?>
+        <?php if ($isButton): ?>
+            <?php $element->setAttribute('class', 'btn btn-primary'); ?>
+            <?php echo $this->formButton($element); ?>
+        <?php elseif ($element instanceof Zend\Form\Element\Select): ?>
+            <?php echo $this->formSelect($element) . $this->formElementErrors($element, array('class' => 'help-inline')); ?>
+        <?php elseif ($element instanceof Zend\Form\Element\MultiCheckbox): ?>
+            <?php echo $this->formMultiCheckbox($element) . $this->formElementErrors($element, array('class' => 'help-inline')); ?>
+        <?php elseif ($isCheckbox): ?>
+            <div class="checkbox">
+                <?php echo $this->formCheckbox($element) . $this->formElementErrors($element, array('class' => 'help-inline'));; ?>
+            </div>
+        <?php else: ?>
+            <?php echo $this->formInput($element, array('class' => 'form-control')) . $this->formElementErrors($element, array('class' => 'help-inline')); ?>
+        <?php endif ?>
+    </div>
+<?php endforeach ?>
 <?php if ($this->redirect): ?>
-    <input type="hidden" name="redirect" value="<?php echo $this->redirect ?>">
+    <input type="hidden" name="redirect" value="<?php echo $this->redirect; ?>">
 <?php endif ?>
-<?php echo $this->form()->closeTag() ?>
+<?php echo $this->form()->closeTag(); ?>
