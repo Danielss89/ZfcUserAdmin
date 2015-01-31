@@ -2,14 +2,14 @@
 
 namespace ZfcUserAdmin\Form;
 
-use ZfcUser\Entity\UserInterface;
-use ZfcUser\Form\Register;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\InputFilter\InputFilter;
 use ZfcUser\Options\RegistrationOptionsInterface;
+use ZfcUser\Entity\UserInterface;
+use ZfcUser\Form\Base;
 use ZfcUserAdmin\Options\UserEditOptionsInterface;
-use Zend\Form\Form;
-use Zend\Form\Element;
 
-class EditUser extends Register
+class EditUser extends Base
 {
     /**
      * @var \ZfcUserAdmin\Options\UserEditOptionsInterface
@@ -23,6 +23,11 @@ class EditUser extends Register
         $this->setUserEditOptions($options);
         $this->setServiceManager($serviceManager);
         parent::__construct($name, $registerOptions);
+        // ZfcUser should have setHydrator() which we replace or extend
+        $this->setHydrator($serviceManager->get('zfcuser_user_hydrator'));
+
+        // Render using ZfcAdmin form class
+        $this->setAttribute('class', 'zend_form');
 
         $this->remove('captcha');
 
@@ -30,14 +35,21 @@ class EditUser extends Register
             $this->add(array(
                 'name' => 'reset_password',
                 'type' => 'Zend\Form\Element\Checkbox',
+                'required' => true,
                 'options' => array(
                     'label' => 'Reset password to random',
+                    'exclude' => true,
                 ),
             ));
 
             $password = $this->get('password');
             $password->setAttribute('required', false);
-            $password->setOptions(array('label' => 'Password (only if want to change)'));
+            $password->setOptions(
+                array(
+                    'label' => 'Password (only if want to change)',
+                    'exclude' => true,
+                )
+            );
 
             $this->remove('passwordVerify');
         } else {
@@ -61,41 +73,7 @@ class EditUser extends Register
 
         $this->get('submit')->setLabel('Save')->setValue('Save');
 
-        $this->add(array(
-            'name' => 'userId',
-            'attributes' => array(
-                'type' => 'hidden'
-            ),
-        ));
-    }
-
-    public function setUser($userEntity)
-    {
-        $this->userEntity = $userEntity;
-        $this->getEventManager()->trigger('userSet', $this, array('user' => $userEntity));
-    }
-
-    public function getUser()
-    {
-        return $this->userEntity;
-    }
-
-    public function populateFromUser(UserInterface $user)
-    {
-        foreach ($this->getElements() as $element) {
-            /** @var $element \Zend\Form\Element */
-            $elementName = $element->getName();
-            if (strpos($elementName, 'password') === 0) continue;
-
-            $getter = $this->getAccessorName($elementName, false);
-            if (method_exists($user, $getter)) $element->setValue(call_user_func(array($user, $getter)));
-        }
-
-        foreach ($this->getUserEditOptions()->getEditFormElements() as $element) {
-            $getter = $this->getAccessorName($element, false);
-            $this->get($element)->setValue(call_user_func(array($user, $getter)));
-        }
-        $this->get('userId')->setValue($user->getId());
+        $this->getEventManager()->trigger('init', $this);
     }
 
     protected function getAccessorName($property, $set = true)
@@ -126,5 +104,35 @@ class EditUser extends Register
     public function getServiceManager()
     {
         return $this->serviceManager;
+    }
+
+    /**
+     * Override isValid() to set an validation group of all elements that do not
+     * have an 'exclude' option, if at least one element has this option set.
+     *
+     * @return boolean
+     */
+    public function isValid()
+    {
+        if ($this->hasValidated) {
+            return $this->isValid;
+        }
+
+        if ($this->getValidationGroup() === null) {
+            // Add all non-excluded elements to the validation group
+            $validationGroup = null;
+            foreach ($this->getElements() as $element) {
+                if ($element->getOption('exclude') === false or
+                    ($element->getAttribute('readonly') !== true && $element->getOption('exclude') !== true))
+                {
+                    $validationGroup[] = $element->getName();
+                }
+            }
+            if ($validationGroup) {
+                $this->setValidationGroup($validationGroup);
+            }
+        }
+
+        return parent::isValid();
     }
 }

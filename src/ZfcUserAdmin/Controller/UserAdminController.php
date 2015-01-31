@@ -40,19 +40,19 @@ class UserAdminController extends AbstractActionController
     {
         /** @var $form \ZfcUserAdmin\Form\CreateUser */
         $form = $this->getServiceLocator()->get('zfcuseradmin_createuser_form');
+        /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
 
-        /** @var $request \Zend\Http\Request */
         if ($request->isPost()) {
             $zfcUserOptions = $this->getZfcUserOptions();
             $class = $zfcUserOptions->getUserEntityClass();
             $user = new $class();
-            $form->setHydrator(new ClassMethods());
             $form->bind($user);
+
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $user = $this->getAdminUserService()->create($form, (array)$request->getPost());
+                $user = $this->getAdminUserService()->create($form, (array)$request->getPost(), $user);
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was created');
                     return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
@@ -67,15 +67,17 @@ class UserAdminController extends AbstractActionController
 
     public function editAction()
     {
-        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
-        $user = $this->getUserMapper()->findById($userId);
-
         /** @var $form \ZfcUserAdmin\Form\EditUser */
         $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
-        $form->setUser($user);
-
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
+
+        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
+        $user = $this->getUserMapper()->findById($userId);
+        $form->bind($user);
+
+        // don't automatically overwrite password since input permit blank
+        $form->getInputFilter()->remove('password');
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
@@ -85,9 +87,10 @@ class UserAdminController extends AbstractActionController
                     return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
                 }
             }
-        } else {
-            $form->populateFromUser($user);
         }
+        // Necessary so validators know whether a username and email have changed since they may be a "duplicate" of
+        // their own database record, but not of other users.
+        $form->get('userId')->setValue($user->getId());
 
         return array(
             'editUserForm' => $form,
