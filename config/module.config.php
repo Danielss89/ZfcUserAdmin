@@ -13,6 +13,15 @@ return array(
     'router' => array(
         'routes' => array(
             'zfcadmin' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin',
+                    'defaults' => array(
+                        'controller' => 'index',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => false,
                 'child_routes' => array(
                     'zfcuseradmin' => array(
                         'type' => 'Literal',
