@@ -1,11 +1,17 @@
 {
-    "name": "prevostc/zfc-user-admin",
+    "name": "danielss89/zfc-user-admin",
     "description": "An administration interface for ZfcUser.",
     "type": "library",
     "keywords": [
         "zf2"
     ],
-    "homepage": "https://github.com/prevostc/ZfcUserAdmin.git",
+    "homepage": "https://github.com/Danielss89/ZfcUserAdmin.git",
+    "authors": [
+        {
+            "name": "Daniel Strøm",
+            "email": "daniel@eye4web.dk"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "zf-commons/zfc-user": ">=0.1.1",
