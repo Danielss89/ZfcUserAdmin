@@ -34,4 +34,9 @@ class Module implements ServiceProviderInterface
     {
         return include __DIR__ . '/config/services.config.php';
     }
+
+    public function getControllerConfig()
+    {
+        return include __DIR__ . '/config/controllers.config.php';
+    }
 }

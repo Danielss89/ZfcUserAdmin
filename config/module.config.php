@@ -5,11 +5,6 @@ return array(
             'zfcuseradmin' => __DIR__ . '/../view',
         ),
     ),
-    'controllers' => array(
-        'invokables' => array(
-            'zfcuseradmin' => 'ZfcUserAdmin\Controller\UserAdminController',
-        ),
-    ),
     'router' => array(
         'routes' => array(
             'zfcadmin' => array(
