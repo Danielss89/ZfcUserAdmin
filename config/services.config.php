@@ -11,6 +11,7 @@ use ZfcUser\Validator\NoRecordExists;
 use ZfcUserAdmin\Form;
 use ZfcUserAdmin\Options;
 use ZfcUserAdmin\Validator\NoRecordExistsEdit;
+use ZfcUserAdmin\Service\User;
 
 return array(
     'invokables' => array(
@@ -18,6 +19,13 @@ return array(
         'zfcuseradmin_user_service' => 'ZfcUserAdmin\Service\User',
     ),
     'factories' => array(
+        'zfcuseradmin_user_service' => function (ServiceLocatorInterface $sm) {
+            $userMapper = $sm->get('zfcuser_user_mapper');
+            $options = $sm->get('zfcuseradmin_module_options');
+            $zfcUserOptions = $sm->get('zfcuser_module_options');
+
+            return new User($userMapper, $options, $zfcUserOptions);
+        },
         'zfcuseradmin_module_options' => function (ServiceLocatorInterface $sm) {
             $config = $sm->get('Config');
             return new Options\ModuleOptions(isset($config['zfcuseradmin']) ? $config['zfcuseradmin'] : array());
