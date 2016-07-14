@@ -2,12 +2,20 @@
 
 namespace ZfcUserAdmin\Factory\Service;
 
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcUserAdmin\Options\ModuleOptions;
 
 class ModuleOptionsFactory implements FactoryInterface
 {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $config = $container->get('Config');
+
+        return new ModuleOptions(isset($config['zfcuseradmin']) ? $config['zfcuseradmin'] : array());
+    }
+
     /**
      * Create service
      *
@@ -16,8 +24,6 @@ class ModuleOptionsFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config');
-
-        return new ModuleOptions(isset($config['zfcuseradmin']) ? $config['zfcuseradmin'] : array());
+        return $this($serviceLocator, ModuleOptions::class);
     }
 }
