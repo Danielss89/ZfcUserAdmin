@@ -11,7 +11,6 @@ namespace ZfcUserAdmin;
 
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 
-
 class Module implements ServiceProviderInterface
 {
     public function getConfig()
@@ -33,5 +32,10 @@ class Module implements ServiceProviderInterface
     public function getServiceConfig()
     {
         return include __DIR__ . '/config/services.config.php';
+    }
+
+    public function getControllerConfig()
+    {
+        return include __DIR__ . '/config/controllers.config.php';
     }
 }

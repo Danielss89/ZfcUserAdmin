@@ -11,12 +11,38 @@ use ZfcUserAdmin\Options\ModuleOptions;
 
 class UserAdminController extends AbstractActionController
 {
-    protected $options, $userMapper;
-    protected $zfcUserOptions;
-    /**
-     * @var \ZfcUserAdmin\Service\User
-     */
+    /** @var array */
+    protected $options;
+
+    protected $userMapper;
+
+    /** @var \ZfcUserAdmin\Form\CreateUser */
+    protected $createUserForm;
+
+    /** @var $form \ZfcUserAdmin\Form\EditUser */
+    protected $editUserForm;
+
+    /** @var \ZfcUserAdmin\Service\User */
     protected $adminUserService;
+
+    /** @var array */
+    protected $zfcUserOptions;
+
+    public function __construct(
+        $createUserForm,
+        $editUserForm,
+        ModuleOptions $options = null,
+        UserInterface $userMapper = null,
+        $adminUserService = null,
+        ZfcUserModuleOptions $zfcUserOptions = null
+    ) {
+        $this->createUserForm = $createUserForm;
+        $this->editUserForm = $editUserForm;
+        $this->options = $options;
+        $this->userMapper = $userMapper;
+        $this->adminUserService = $adminUserService;
+        $this->zfcUserOptions = $zfcUserOptions;
+    }
 
     public function listAction()
     {
@@ -39,7 +65,7 @@ class UserAdminController extends AbstractActionController
     public function createAction()
     {
         /** @var $form \ZfcUserAdmin\Form\CreateUser */
-        $form = $this->getServiceLocator()->get('zfcuseradmin_createuser_form');
+        $form = $this->createUserForm;
         $request = $this->getRequest();
 
         /** @var $request \Zend\Http\Request */
@@ -70,8 +96,7 @@ class UserAdminController extends AbstractActionController
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
         $user = $this->getUserMapper()->findById($userId);
 
-        /** @var $form \ZfcUserAdmin\Form\EditUser */
-        $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
+        $form = $this->editUserForm;
         $form->setUser($user);
 
         /** @var $request \Zend\Http\Request */
@@ -122,17 +147,11 @@ class UserAdminController extends AbstractActionController
 
     public function getOptions()
     {
-        if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceLocator()->get('zfcuseradmin_module_options'));
-        }
         return $this->options;
     }
 
     public function getUserMapper()
     {
-        if (null === $this->userMapper) {
-            $this->userMapper = $this->getServiceLocator()->get('zfcuser_user_mapper');
-        }
         return $this->userMapper;
     }
 
@@ -144,9 +163,6 @@ class UserAdminController extends AbstractActionController
 
     public function getAdminUserService()
     {
-        if (null === $this->adminUserService) {
-            $this->adminUserService = $this->getServiceLocator()->get('zfcuseradmin_user_service');
-        }
         return $this->adminUserService;
     }
 
@@ -167,9 +183,6 @@ class UserAdminController extends AbstractActionController
      */
     public function getZfcUserOptions()
     {
-        if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
-            $this->setZfcUserOptions($this->getServiceLocator()->get('zfcuser_module_options'));
-        }
         return $this->zfcUserOptions;
     }
 }

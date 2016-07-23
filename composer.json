@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.3.3",
         "zf-commons/zfc-user": ">=0.1.1",
-        "zf-commons/zfc-admin": ">=0.1.1"
+        "zf-commons/zfc-admin": ">=0.1.1",
+        "container-interop/container-interop": "~1.0"
     },
     "autoload": {
         "psr-0": {
