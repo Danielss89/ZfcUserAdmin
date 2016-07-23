@@ -31,11 +31,11 @@ class UserControllerFactory implements FactoryInterface
     /**
      * Create service
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ServiceLocatorInterface $pluginManager
      * @return UserAdminController
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $pluginManager)
     {
-        return $this($serviceLocator, UserAdminController::class);
+        return $this($pluginManager->getServiceLocator(), UserAdminController::class);
     }
 }
