@@ -27,6 +27,18 @@ This module provides an interface to create/edit/delete users.
 
 ## Usage
 
+### Update The Application Config
+
+Add ZfcUserAdmin to the modules array in `application.config.php`
+
+    'modules' => array(
+        'Application',
+        'ZfcBase',
+        'ZfcUser',
+        'ZfcUserAdmin',
+        // ... more modules ... //
+        ),
+
 ### Override default module config
 
 Copy `<zfc-user-admin>/config/ZfcUserAdmin.global.php.dist` to `<project root>/autoload/ZfcUserAdmin.global.php` and
@@ -54,6 +66,21 @@ return array(
 );
 
 ```
+
+### Routing
+
+You will be able to access the users list from `/admin/user/list`
+
+This can be overridden by adding the routing information to the routes array your `module.config.php` file.  Adding the following:
+
+    'zfcadmin' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/site-admin',
+                ),
+            ),
+
+Will move the list to `/site-admin/user/list`
 
 TODO: add more usage information and module options list
 
